@@ -208,12 +208,12 @@ export default function Home({ onInstall, canInstall }) {
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
                         <Link 
-                            to="/dermai"
+                            to="/triage"
                             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-teal-400 text-lg font-bold text-slate-950 transition-all hover:bg-teal-300 hover:scale-[1.02] shadow-[0_0_35px_-5px_rgba(45,212,191,0.6)]"
                             style={{ padding: '1rem 2.2rem', minHeight: '3.5rem' }}
                         >
                             <Stethoscope size={22} />
-                            Start DermAI Triage
+                            Start Clinical Triage
                             <ArrowRight size={18} />
                         </Link>
                         <Link 

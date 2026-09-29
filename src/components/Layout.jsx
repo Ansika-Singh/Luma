@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   const location = useLocation();
 
   const navItems = [
-    { path: '/dermai', label: 'DermAI', icon: <Stethoscope size={16} /> },
+    { path: '/triage', label: 'Triage', icon: <Stethoscope size={16} /> },
     { path: '/map', label: 'Map', icon: <Map size={16} /> },
     { path: '/skin', label: 'Skin', icon: <Camera size={16} /> },
     { path: '/skincare', label: 'Skincare', icon: <Sparkles size={16} /> },
@@ -44,14 +44,14 @@ const Layout = ({ children }) => {
               color: '#2DD4BF', 
               border: '1px solid rgba(45, 212, 191, 0.3)' 
             }}>
-              DermAI 2.0
+              Clinical 2.0
             </span>
           </Link>
 
           {/* Navigation Links */}
           <nav className="hidden md:flex items-center gap-1">
             {navItems.map((item) => {
-              const active = location.pathname === item.path;
+              const active = location.pathname === item.path || (item.path === '/triage' && location.pathname === '/dermai');
               return (
                 <Link
                   key={item.path}
@@ -111,7 +111,7 @@ const Layout = ({ children }) => {
         {/* Mobile Quick Bar */}
         <div className="flex md:hidden justify-center gap-1.5 mt-2 overflow-x-auto py-1">
           {navItems.map((item) => {
-            const active = location.pathname === item.path;
+            const active = location.pathname === item.path || (item.path === '/triage' && location.pathname === '/dermai');
             return (
               <Link
                 key={item.path}
@@ -144,7 +144,7 @@ const Layout = ({ children }) => {
       </main>
       
       <footer style={{ padding: '2rem 1rem', textAlign: 'center', fontSize: '0.8rem', color: '#64748B', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <p style={{ fontWeight: '600', color: '#94A3B8' }}>Luma + DermAI · Offline Diagnostic Intelligence Platform</p>
+        <p style={{ fontWeight: '600', color: '#94A3B8' }}>Luma · Offline Diagnostic Intelligence Platform</p>
         <p style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>Fitzpatrick V/VI Calibrated · NHA HFR Integrated · 7 Indian Languages</p>
       </footer>
     </div>

@@ -1,4 +1,4 @@
-# Luma (DermAI) 🩺✨
+# Luma 🩺✨
 
 > **Offline-First, Fitzpatrick-Calibrated AI Dermatology & Rural Triage System**  
 > *Empowering frontline healthcare workers (ASHA / PHCs) and rural communities with 100% on-device clinical screening, multilingual voice guidance, and real-time outbreak surveillance.*
@@ -32,7 +32,7 @@ In rural India and underserved low-resource regions, access to certified dermato
 - **Combating Algorithmic Bias**: Specialized colorimetric adjustments compensate for erythema masking in melanin-dense skin where redness presents as hyperpigmentation, violaceous hues, or subtle induration rather than typical pink/red flushing.
 - **Automatic & Manual Tone Calibration**: Live skin tone sampling combined with manual override capabilities ensures equitable diagnostic confidence across Fitzpatrick scale Types I through VI.
 
-### 3. 🩺 DermAI Guided Rural Triage Workflow
+### 3. 🩺 Guided Rural Clinical Triage Workflow
 A streamlined, foolproof 3-step operator flow built specifically for community health workers:
 1. **Patient Intake**: Fast recording of demographic data and location details.
 2. **7-Question Clinical History**: Structured symptom questionnaire (lesion evolution, itch vs. pain, bleeding, previous treatments, family history).
@@ -74,7 +74,7 @@ A streamlined, foolproof 3-step operator flow built specifically for community h
 flowchart TD
     A[ASHA Worker / User] --> B{Choose Workflow}
     
-    B -->|Clinical Triage| C[DermAI 3-Step Flow]
+    B -->|Clinical Triage| C[Luma 3-Step Flow]
     B -->|Quick Analysis| D[Skin Analysis & Routine]
     B -->|Epidemic Map| E[Outbreak Surveillance Map]
     
@@ -148,7 +148,7 @@ Luma/
 │   │   └── mlService.js           # TensorFlow.js pipeline, memory leak safeguards
 │   ├── tests/                     # Vitest test suites (39 tests)
 │   │   ├── CameraCapture.test.jsx
-│   │   ├── DermAIWorkflow.test.jsx
+│   │   ├── LumaWorkflow.test.jsx
 │   │   ├── EscalationAlert.test.jsx
 │   │   ├── History.test.jsx
 │   │   ├── ResultsDisplay.test.jsx
@@ -161,7 +161,7 @@ Luma/
 │   │   ├── mlService.test.js
 │   │   └── phcAndSms.test.js
 │   ├── views/                     # Primary application screens
-│   │   ├── DermAIWorkflow.jsx     # Guided 3-step rural screening workflow
+│   │   ├── LumaWorkflow.jsx     # Guided 3-step rural screening workflow
 │   │   ├── DiseaseMap.jsx         # Epidemic cluster detection & map view
 │   │   ├── History.jsx            # Local patient consultation history
 │   │   ├── Home.jsx               # Immersive landing page & PWA installer

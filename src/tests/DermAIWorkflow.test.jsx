@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import DermAIWorkflow from '../views/DermAIWorkflow';
 import { LanguageProvider } from '../contexts/LanguageContext';
 
-describe('DermAI Guided Clinical Workflow', () => {
+describe('Luma Guided Clinical Workflow', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     global.localStorage.clear();
@@ -21,7 +21,7 @@ describe('DermAI Guided Clinical Workflow', () => {
 
   it('renders Step 1: Patient Details intake form', () => {
     renderComponent();
-    expect(screen.getByText('DermAI Diagnostic Intelligence')).toBeInTheDocument();
+    expect(screen.getByText('Luma Clinical Intelligence')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Patient Details' })).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Ramesh Patil/i)).toBeInTheDocument();
   });

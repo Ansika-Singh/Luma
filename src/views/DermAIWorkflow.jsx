@@ -310,7 +310,7 @@ export default function DermAIWorkflow() {
     if (!diagnosis) return;
     setSmsSending(true);
     const phc = findNearestPHC(patient.village);
-    const textMsg = `DermAI Urgent Referral: Patient ${patient.fullName} (${patient.age}y, ${patient.village}) detected with ${diagnosis.condition} (${diagnosis.risk} RISK, Fitz ${diagnosis.fitzpatrick}). PHC: ${phc.name}. Directive: ${diagnosis.directive}`;
+    const textMsg = `Luma Urgent Referral: Patient ${patient.fullName} (${patient.age}y, ${patient.village}) detected with ${diagnosis.condition} (${diagnosis.risk} RISK, Fitz ${diagnosis.fitzpatrick}). PHC: ${phc.name}. Directive: ${diagnosis.directive}`;
 
     try {
       const res = await sendReferralSMS(phc.contact, textMsg);
@@ -366,7 +366,7 @@ export default function DermAIWorkflow() {
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold mt-2 tracking-tight">
-            DermAI Diagnostic Intelligence
+            Luma Clinical Intelligence
           </h1>
           <p className="text-sm text-slate-400 mt-1">
             {t('app_tagline')}

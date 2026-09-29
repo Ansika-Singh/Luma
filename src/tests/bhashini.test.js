@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { LANGUAGES, STRINGS, t } from '../lib/bhashini';
 
 describe('Bhashini Multilingual Localization & Speech Module', () => {
-  it('supports all 7 Indian languages from DermAI', () => {
+  it('supports all 7 Indian languages', () => {
     const codes = LANGUAGES.map(l => l.code);
     expect(codes).toContain('en');
     expect(codes).toContain('hi');
@@ -15,9 +15,9 @@ describe('Bhashini Multilingual Localization & Speech Module', () => {
   });
 
   it('correctly translates keys across multiple languages', () => {
-    expect(t('start_diagnosis', 'en')).toBe('Start DermAI Triage');
-    expect(t('start_diagnosis', 'hi')).toBe('डर्मएआई जांच शुरू करें');
-    expect(t('start_diagnosis', 'mr')).toBe('डर्मएआय तपासणी सुरू करा');
+    expect(t('start_diagnosis', 'en')).toBe('Start Clinical Triage');
+    expect(t('start_diagnosis', 'hi')).toBe('क्लिनिकल जांच शुरू करें');
+    expect(t('start_diagnosis', 'mr')).toBe('क्लिनिकल तपासणी सुरू करा');
     expect(t('start_diagnosis', 'bn')).toBe('ট্রায়াজ শুরু করুন');
   });
 

@@ -1,5 +1,5 @@
 /**
- * Bhashini Multilingual Localization & Speech Service for DermAI + Luma
+ * Bhashini Multilingual Localization & Speech Service for Luma
  * Supports 7 Indian languages with offline dictionary & Web Speech API TTS.
  */
 
@@ -22,7 +22,7 @@ export const STRINGS = {
     en: 'Skin Analysis', hi: 'त्वचा स्कैन', mr: 'त्वचा स्कॅन', ta: 'தோல் ஸ்கேன்', te: 'చర్మ స్కాన్', bn: 'ত্বক স্ক্যান', gu: 'ત્વચા સ્કેન'
   },
   dermai_title: {
-    en: 'DermAI Triage', hi: 'डर्मएआई ट्राइएज', mr: 'डर्मएआय ट्राइएज', ta: 'டெர்ம்ஏஐ பரிசோதனை', te: 'డెర్మ్ఏఐ పరీక్ష', bn: 'ডার্মএআই ট্রায়াজ', gu: 'ડર્મએઆઈ ટ્રાયેજ'
+    en: 'Clinical Triage', hi: 'क्लिनिकल ट्राइएज', mr: 'क्लिनिकल ट्राइएज', ta: 'மருத்துவ பரிசோதனை', te: 'క్లినికల్ పరీక్ష', bn: 'ক্লিনিকাল ট্রায়াজ', gu: 'ક્લિનિકલ ટ્રાયેજ'
   },
   outbreak_map: {
     en: 'Outbreak Map', hi: 'प्रकोप मानचित्र', mr: 'साथ नकाशा', ta: 'நோய் பரவல் வரைபடம்', te: 'వ్యాధి వ్యాప్తి మ్యాప్', bn: 'প্রকোপ মানচিত্র', gu: 'રોગચાળો નકશો'
@@ -57,7 +57,7 @@ export const STRINGS = {
 
   // Workflow steps
   start_diagnosis: {
-    en: 'Start DermAI Triage', hi: 'डर्मएआई जांच शुरू करें', mr: 'डर्मएआय तपासणी सुरू करा', ta: 'பரிசோதனையை தொடங்கு', te: 'పరీక్ష ప్రారంభించండి', bn: 'ট্রায়াজ শুরু করুন', gu: 'તપાસ શરૂ કરો'
+    en: 'Start Clinical Triage', hi: 'क्लिनिकल जांच शुरू करें', mr: 'क्लिनिकल तपासणी सुरू करा', ta: 'பரிசோதனையை தொடங்கு', te: 'పరీక్ష ప్రారంభించండి', bn: 'ট্রায়াজ শুরু করুন', gu: 'તપાસ શરૂ કરો'
   },
   patient_details: {
     en: 'Patient Details', hi: 'रोगी विवरण', mr: 'रुग्ण तपशील', ta: 'நோயாளி விவரம்', te: 'రోగి వివరాలు', bn: 'রোগীর বিবরণ', gu: 'દર્દીની વિગતો'

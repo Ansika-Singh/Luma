@@ -41,8 +41,8 @@ export function lookupVillage(name) {
   return VILLAGE_INDEX[name.trim().toLowerCase()] || null;
 }
 
-const STORAGE_KEY = 'luma_dermai_disease_map_records_v1';
-const SEED_FLAG_KEY = 'luma_dermai_disease_map_seeded_v1';
+const STORAGE_KEY = 'luma_disease_map_records_v1';
+const SEED_FLAG_KEY = 'luma_disease_map_seeded_v1';
 const CLUSTER_WINDOW_HOURS = 72;
 const CLUSTER_THRESHOLD = 3;
 

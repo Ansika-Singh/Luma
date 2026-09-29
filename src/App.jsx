@@ -47,6 +47,7 @@ function App() {
       )}
       <Routes>
         <Route path="/" element={<Home onInstall={handleInstallClick} canInstall={!!deferredPrompt} />} />
+        <Route path="/triage" element={<Layout><DermAIWorkflow /></Layout>} />
         <Route path="/dermai" element={<Layout><DermAIWorkflow /></Layout>} />
         <Route path="/map" element={<Layout><DiseaseMap /></Layout>} />
         <Route path="/skin" element={<Layout><SkinAnalysis /></Layout>} />

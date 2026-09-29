@@ -51,7 +51,7 @@ PATIENT INFORMATION:
 - Weight: ${patient.weight ? `${patient.weight} kg` : 'N/A'}
 - Village/Location: ${patient.village || 'N/A'}
 
-DIAGNOSTIC FINDINGS (DermAI v2.4 Offline Engine):
+DIAGNOSTIC FINDINGS (Luma Offline Engine):
 - Detected Condition: ${diagnosis.condition}
 - Confidence Score: ${diagnosis.confidence}%
 - Clinical Severity & Risk: ${diagnosis.risk} RISK
