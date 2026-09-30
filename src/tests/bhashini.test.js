@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { LANGUAGES, STRINGS, t } from '../lib/bhashini';
+import { 
+  LANGUAGES, 
+  STRINGS, 
+  t, 
+  isSupportedLanguage, 
+  getLanguageDetails, 
+  getSupportedLanguageCodes 
+} from '../lib/bhashini';
 
 describe('Bhashini Multilingual Localization & Speech Module', () => {
   it('supports all 7 Indian languages', () => {
@@ -33,5 +40,18 @@ describe('Bhashini Multilingual Localization & Speech Module', () => {
 
   it('falls back gracefully to English or raw key if unknown', () => {
     expect(t('nonexistent_key_xyz', 'en')).toBe('nonexistent_key_xyz');
+  });
+
+  it('validates supported languages and language details lookup', () => {
+    const codes = getSupportedLanguageCodes();
+    expect(codes).toHaveLength(7);
+    expect(isSupportedLanguage('hi')).toBe(true);
+    expect(isSupportedLanguage('unknown')).toBe(false);
+
+    const hindiDetails = getLanguageDetails('hi');
+    expect(hindiDetails).toBeDefined();
+    expect(hindiDetails?.native).toBe('हिंदी');
+    expect(hindiDetails?.locale).toBe('hi-IN');
+    expect(getLanguageDetails('nonexistent')).toBeNull();
   });
 });

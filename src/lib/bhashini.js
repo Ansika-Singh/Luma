@@ -223,3 +223,18 @@ export function speak(text, lang = 'en') {
 export function speakKey(key, lang = 'en') {
   return speak(t(key, lang), lang);
 }
+
+/** Check if a language code is supported */
+export function isSupportedLanguage(code) {
+  return LANGUAGES.some((l) => l.code === code);
+}
+
+/** Get metadata for a supported language */
+export function getLanguageDetails(code) {
+  return LANGUAGES.find((l) => l.code === code) || null;
+}
+
+/** Get list of all supported language codes */
+export function getSupportedLanguageCodes() {
+  return LANGUAGES.map((l) => l.code);
+}
