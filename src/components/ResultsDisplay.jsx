@@ -168,8 +168,14 @@ const ResultsDisplay = ({
 
   return (
     <div className="flex flex-col gap-4">
-      <div style={{ position: 'relative', borderRadius: '0.5rem', overflow: 'hidden' }}>
-        <img src={imageSrc} alt="Scan Result" style={{ width: '100%', display: 'block' }} />
+      <div style={{ position: 'relative', borderRadius: '0.5rem', overflow: 'hidden', minHeight: imageSrc ? 'auto' : '180px', backgroundColor: '#181e2b', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {imageSrc ? (
+          <img src={imageSrc} alt="Scan Result" style={{ width: '100%', display: 'block' }} />
+        ) : (
+          <div style={{ color: '#64748b', fontSize: '0.875rem', padding: '1rem', textAlign: 'center' }}>
+            No scan image preview available
+          </div>
+        )}
         {/* Canvas for XAI Heatmap */}
         <canvas 
           ref={canvasRef}
