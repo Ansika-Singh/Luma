@@ -217,9 +217,20 @@ Luma/
 
 ---
 
+## ⚡ Production Bundle Optimization & Performance
+
+Luma employs an optimized bundle-splitting strategy configured in `vite.config.js` to ensure fast initial page loads even over low-bandwidth 2G/3G mobile networks:
+
+- **Isolated AI Engine (`vendor-tfjs`)**: TensorFlow.js model runtimes (~870 kB) are separated into an independently cached chunk.
+- **UI Framework Chunk (`vendor-react`)**: React 19, DOM, and routing dependencies (~180 kB).
+- **Core Application Bundle (`index.js`)**: Highly compact application logic (~360 kB).
+- **Service Worker Precaching**: Automatic offline caching of model assets, routes, and styles via `vite-plugin-pwa` with CacheFirst runtime strategy.
+
+---
+
 ## 🧪 Testing
 
-Luma includes a comprehensive suite of **39 tests across 13 test suites**, covering component rendering, Fitzpatrick calculations, TensorFlow memory leaks (zero-tensor-leak verification after 20 loops), cluster detection, and offline storage.
+Luma includes a comprehensive suite of **41 automated tests across 13 test suites**, covering component rendering, Fitzpatrick skin calibrations, TensorFlow memory leak prevention (zero-tensor delta verification after 20 loops), cluster detection, Bhashini localization helpers, and IndexedDB persistence.
 
 To run the automated test suite:
 
