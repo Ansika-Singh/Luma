@@ -60,5 +60,23 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src')
     }
+  },
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('@tensorflow')) {
+            return 'vendor-tfjs';
+          }
+          if (id.includes('react-router-dom') || id.includes('react-dom') || id.includes('/react/')) {
+            return 'vendor-react';
+          }
+          if (id.includes('lucide-react')) {
+            return 'vendor-icons';
+          }
+        }
+      }
+    }
   }
 })
