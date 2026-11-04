@@ -1,0 +1,59 @@
+import { describe, it, expect } from 'vitest';
+import { 
+  LANGUAGES, 
+  STRINGS, 
+  t, 
+  isSupportedLanguage, 
+  getLanguageDetails, 
+  getSupportedLanguageCodes 
+} from '../lib/bhashini';
+
+describe('Bhashini Multilingual Localization & Speech Module', () => {
+  it('supports all 7 Indian languages', () => {
+    const codes = LANGUAGES.map(l => l.code);
+    expect(codes).toContain('en');
+    expect(codes).toContain('hi');
+    expect(codes).toContain('mr');
+    expect(codes).toContain('ta');
+    expect(codes).toContain('te');
+    expect(codes).toContain('bn');
+    expect(codes).toContain('gu');
+    expect(LANGUAGES.length).toBe(7);
+  });
+
+  it('correctly translates keys across multiple languages', () => {
+    expect(t('start_diagnosis', 'en')).toBe('Start Clinical Triage');
+    expect(t('triage_title', 'en')).toBe('Clinical Triage');
+    expect(t('dermai_title', 'en')).toBe('Clinical Triage');
+    expect(t('start_diagnosis', 'hi')).toBe('क्लिनिकल जांच शुरू करें');
+    expect(t('start_diagnosis', 'mr')).toBe('क्लिनिकल तपासणी सुरू करा');
+    expect(t('start_diagnosis', 'bn')).toBe('ট্রায়াজ শুরু করুন');
+  });
+
+  it('includes 7-question clinical triage strings', () => {
+    expect(STRINGS['question_1']).toBeDefined();
+    expect(STRINGS['question_2']).toBeDefined();
+    expect(STRINGS['question_3']).toBeDefined();
+    expect(STRINGS['question_4']).toBeDefined();
+    expect(STRINGS['question_5']).toBeDefined();
+    expect(STRINGS['question_6']).toBeDefined();
+    expect(STRINGS['question_7']).toBeDefined();
+  });
+
+  it('falls back gracefully to English or raw key if unknown', () => {
+    expect(t('nonexistent_key_xyz', 'en')).toBe('nonexistent_key_xyz');
+  });
+
+  it('validates supported languages and language details lookup', () => {
+    const codes = getSupportedLanguageCodes();
+    expect(codes).toHaveLength(7);
+    expect(isSupportedLanguage('hi')).toBe(true);
+    expect(isSupportedLanguage('unknown')).toBe(false);
+
+    const hindiDetails = getLanguageDetails('hi');
+    expect(hindiDetails).toBeDefined();
+    expect(hindiDetails?.native).toBe('हिंदी');
+    expect(hindiDetails?.locale).toBe('hi-IN');
+    expect(getLanguageDetails('nonexistent')).toBeNull();
+  });
+});
