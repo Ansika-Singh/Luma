@@ -5,12 +5,18 @@
 
 [![React](https://img.shields.io/badge/React-19.2-blue?logo=react&logoColor=white)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-8.2-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Vercel Deployment](https://img.shields.io/badge/Deploy-Vercel%20Live-black?logo=vercel&logoColor=white)](https://luma-clinical.vercel.app)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v4.0-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-4.22-FF6F00?logo=tensorflow&logoColor=white)](https://www.tensorflow.org/js)
 [![Vitest](https://img.shields.io/badge/Tests-46%20Passed-brightgreen?logo=vitest&logoColor=white)](https://vitest.dev/)
 [![Render](https://img.shields.io/badge/Deploy-Render%20Ready-46E3B7?logo=render&logoColor=white)](render.yaml)
 [![PWA Ready](https://img.shields.io/badge/PWA-Offline%20Ready-5A0FC8?logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+---
+
+> 🌐 **Live Production Deployment**: **[https://luma-clinical.vercel.app](https://luma-clinical.vercel.app)**  
+> 📦 **GitHub Repository**: **[https://github.com/Ansika-Singh/Luma](https://github.com/Ansika-Singh/Luma)**
 
 ---
 
