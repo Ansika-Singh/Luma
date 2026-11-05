@@ -3,7 +3,7 @@ import { Sparkles, CheckCircle2, Sun, Moon, Droplets, Filter, ShieldCheck, India
 import { FITZ_COLORS, FITZ_LABELS } from '../lib/fitzpatrick';
 
 export const productsDb = [
-  // ─── ACNE (COMEDONAL & INFLAMMATORY) ───
+  // ─── 1. ACNE (COMEDONAL & INFLAMMATORY) ───
   {
     id: 1,
     name: 'Minimalist 2% Salicylic Acid',
@@ -43,7 +43,7 @@ export const productsDb = [
     price: '₹285',
     priceTier: 'Dermatology Pharmacy',
     keyActives: '10% Micronized Azelaic Acid',
-    fitzpatrickSuitable: ['IV', 'V', 'VI', 'I', 'II', 'III'],
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
     howToUse: 'Apply thin layer once daily (preferably PM) to clear blemishes and calm redness.',
@@ -51,6 +51,21 @@ export const productsDb = [
   },
   {
     id: 4,
+    name: 'Cipla Saslic DS 2% Salicylic Acid Foam Wash',
+    brand: 'Cipla Health',
+    condition: 'Acne (Comedonal)',
+    category: 'Cleanser',
+    price: '₹450',
+    priceTier: 'Clinical OTC',
+    keyActives: '2% Salicylic Acid Encapsulated Micro-Foam',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Pump rich foam onto palms, massage over face for 30 seconds, and rinse off thoroughly.',
+    description: 'Prescription-grade salicylic foaming wash widely used in Indian dermatological practice to decongest cystic comedones and control active pustules.'
+  },
+  {
+    id: 5,
     name: 'Cipla Excela Max Moisturizer',
     brand: 'Cipla Health',
     condition: 'Acne (Comedonal)',
@@ -65,7 +80,7 @@ export const productsDb = [
     description: 'Oil-free mattifying moisturizer formulated specifically for acne-prone skin in warm, humid Indian climates. Reduces sebum excretion rate by up to 32%.'
   },
   {
-    id: 5,
+    id: 6,
     name: "Re'equil Ultra Matte Dry Touch Gel SPF 50",
     brand: "Re'equil",
     condition: 'Acne (Comedonal)',
@@ -73,14 +88,14 @@ export const productsDb = [
     price: '₹700',
     priceTier: 'Dermatologist Standard',
     keyActives: 'Advanced Hybrid Filters · PA++++ Rating · Silicone Base',
-    fitzpatrickSuitable: ['IV', 'V', 'VI', 'I', 'II', 'III'],
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
     howToUse: 'Apply 2 finger-lengths generously 15 minutes before stepping out in daylight.',
     description: 'Non-comedogenic, oil-free matte gel with zero white cast on Fitzpatrick phototypes V & VI. Essential to prevent active acne blemishes from tanning into permanent scars.'
   },
   {
-    id: 6,
+    id: 7,
     name: 'Sebamed Clear Face Care Gel',
     brand: 'Sebamed',
     condition: 'Acne (Comedonal)',
@@ -94,10 +109,25 @@ export const productsDb = [
     howToUse: 'Apply morning and night to calm irritated, inflamed active lesions.',
     description: 'Water-based soothing gel at physiological pH 5.5. Supports the natural acid mantle to naturally suppress P. acnes bacteria without pore blockage.'
   },
-
-  // ─── HYPERPIGMENTATION & MELASMA ───
   {
-    id: 7,
+    id: 8,
+    name: 'Brevoxyl 4% Creamy Wash (Benzoyl Peroxide)',
+    brand: 'GlaxoSmithKline',
+    condition: 'Acne (Comedonal)',
+    category: 'Treatment',
+    price: '₹240',
+    priceTier: 'Pharmacy Standard',
+    keyActives: '4% Micronized Benzoyl Peroxide',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Short-contact therapy: apply on breakout zones for 3-5 minutes then wash off thoroughly.',
+    description: 'Potent bactericidal wash that destroys acne-causing Cutibacterium acnes without causing bacterial resistance, ideal for inflamed papulopustular acne.'
+  },
+
+  // ─── 2. HYPERPIGMENTATION & MELASMA ───
+  {
+    id: 9,
     name: 'Niacinamide 10% Serum',
     brand: 'Plum Goodness',
     condition: 'Hyperpigmentation',
@@ -105,14 +135,14 @@ export const productsDb = [
     price: '₹599',
     priceTier: 'Clinical OTC',
     keyActives: '10% Niacinamide + Fermented Rice Water + Licorice Root',
-    fitzpatrickSuitable: ['IV', 'V', 'VI', 'I', 'II', 'III'],
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
     howToUse: 'Dispense 3-4 drops onto cleansed face, gently pat until absorbed before heavier creams.',
     description: 'Helps fade dark spots and evens melanin distribution. Dermatologist recommended for Indian phototypes IV through VI to suppress melanosome transfer.'
   },
   {
-    id: 8,
+    id: 10,
     name: 'Kojivit Ultra Depigmenting Gel',
     brand: 'Micro Labs',
     condition: 'Hyperpigmentation',
@@ -120,14 +150,14 @@ export const productsDb = [
     price: '₹380',
     priceTier: 'Pharmacy Grade',
     keyActives: 'Kojic Acid Dipalmitate + Arbutin + Glycolic Acid + Vitamin E',
-    fitzpatrickSuitable: ['IV', 'V', 'VI', 'I', 'II', 'III'],
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
     howToUse: 'Apply thinly onto pigmented patches and melasma zones at night. Always use sunscreen during daytime.',
     description: 'Leading clinical depigmenting gel prescribed across Indian dermatology OPDs. Safely inhibits tyrosinase on darker skin without the risks of hydroquinone rebound.'
   },
   {
-    id: 9,
+    id: 11,
     name: 'Minimalist 2% Alpha Arbutin Serum',
     brand: 'Minimalist',
     condition: 'Hyperpigmentation',
@@ -135,68 +165,98 @@ export const productsDb = [
     price: '₹549',
     priceTier: 'Clinical OTC',
     keyActives: '2% Alpha Arbutin + Hyaluronic Acid + Ferulic Acid',
-    fitzpatrickSuitable: ['IV', 'V', 'VI', 'I', 'II', 'III'],
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
     howToUse: 'Apply 2-3 drops morning and evening before moisturizers.',
     description: 'Non-cytotoxic tyrosinase inhibitor that visibly lightens post-inflammatory hyperpigmentation (PIH) and sun spots without irritating sensitive melanin-rich skin.'
   },
   {
-    id: 10,
+    id: 12,
+    name: 'Glenmark Demelan Cream',
+    brand: 'Glenmark Pharmaceuticals',
+    condition: 'Hyperpigmentation',
+    category: 'Treatment',
+    price: '₹510',
+    priceTier: 'Prescription Standard',
+    keyActives: 'Glycolic Acid 10% + Arbutin 5% + Kojic Acid Dipalmitate 2%',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply on alternate nights only on hyperpigmented patches after barrier cream.',
+    description: 'Dermatologist triple-combination non-steroidal therapy for refractory melasma, epidermal hyperpigmentation, and stubborn post-acne blemishes.'
+  },
+  {
+    id: 13,
     name: 'Glenmark Episoft Cleansing Lotion',
     brand: 'Glenmark Pharmaceuticals',
     condition: 'Hyperpigmentation',
     category: 'Cleanser',
     price: '₹295',
-    priceTier: 'Pharmacy Standard',
-    keyActives: 'Cetearyl Alcohol + Colloidal Oatmeal · Soap-Free Syndet',
+    priceTier: 'Clinical Standard',
+    keyActives: 'Cetearyl Alcohol + Sodium Cocoyl Apple Amino Acids (pH 5.5)',
     fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
-    howToUse: 'Apply on face, massage in circular motions, wipe off gently or rinse with water.',
-    description: 'Ultra-gentle soap-free syndet cleanser. Avoids friction and micro-inflammation, preventing chronic pigment triggers during daily facial washing.'
+    howToUse: 'Apply to face, massage gently, wipe off with cotton or rinse with cold water.',
+    description: 'Soap-free, non-irritating cleanser. Crucial for pigment-prone skin as friction and irritation trigger further melanocyte stimulation.'
   },
   {
-    id: 11,
-    name: 'Glenmark La Shield Gel Sunscreen SPF 40',
-    brand: 'Glenmark Pharmaceuticals',
-    condition: 'Hyperpigmentation',
-    category: 'Sunscreen',
-    price: '₹390',
-    priceTier: 'Dermatology Standard',
-    keyActives: 'Micronized Mineral Filters + Vitamin E · PA+++ Broad Spectrum',
-    fitzpatrickSuitable: ['IV', 'V', 'VI', 'I', 'II', 'III'],
-    doctorValidated: true,
-    availableInIndia: true,
-    howToUse: 'Generously apply 20 minutes prior to sun exposure. Reapply after heavy sweating.',
-    description: 'Translucent mineral gel specifically formulated for Indian heat. Shields against UV-induced melanin hyperproduction with zero ghostly white cast.'
-  },
-  {
-    id: 12,
-    name: 'Micro Labs Glyco-6 Cream',
-    brand: 'Micro Labs',
+    id: 14,
+    name: 'Cipla VC15 15% Vitamin C Serum',
+    brand: 'Cipla Health',
     condition: 'Hyperpigmentation',
     category: 'Treatment',
-    price: '₹230',
-    priceTier: 'Affordable Pharmacy',
-    keyActives: '6% Glycolic Acid (AHA)',
-    fitzpatrickSuitable: ['IV', 'V', 'VI', 'I', 'II', 'III'],
+    price: '₹1,850',
+    priceTier: 'Medical Grade Premium',
+    keyActives: '15% L-Ascorbic Acid + Alpha Tocopherol + Ferulic Acid',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
-    howToUse: 'Start 2 nights per week. Apply tiny amount on pigmented areas; gradually increase frequency.',
-    description: 'Micro-exfoliates pigmented surface dead corneocytes to accelerate spot clearance and renew uneven epidermal texture on sun-damaged skin.'
+    howToUse: 'Apply 4-5 drops every morning directly after cleansing, followed immediately by sunscreen.',
+    description: 'Potent medical-grade antioxidant serum. Neutralizes UV-generated free radicals, inhibits melanogenesis, and brightens sun-induced solar lentigines.'
+  },
+  {
+    id: 15,
+    name: 'The Derma Co 2% Kojic Acid Face Serum',
+    brand: 'The Derma Co',
+    condition: 'Hyperpigmentation',
+    category: 'Treatment',
+    price: '₹499',
+    priceTier: 'Affordable Clinical',
+    keyActives: '2% Kojic Acid + 1% Alpha Arbutin + 1% Niacinamide',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply 3-4 drops morning and night to face and neck.',
+    description: 'Triple-active daily depigmenting solution that reduces melanin synthesis and accelerates cellular turnover without dry peeling.'
+  },
+  {
+    id: 16,
+    name: 'Brinton UV Doux Silicone Sunscreen Gel SPF 50',
+    brand: 'Brinton Pharmaceuticals',
+    condition: 'Hyperpigmentation',
+    category: 'Sunscreen',
+    price: '₹695',
+    priceTier: 'Dermatology Benchmark',
+    keyActives: 'Octyl Methoxycinnamate + Micronized Minerals + Silicone Matrix',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Dot evenly across face and neck 15 minutes before daylight exposure.',
+    description: 'Critical protection against UV and high-energy visible (HEV) blue light, preventing reactivation of tyrosinase in melasma-prone skin.'
   },
 
-  // ─── ECZEMA & BARRIER BREAKDOWN ───
+  // ─── 3. ECZEMA & ATOPIC DERMATITIS ───
   {
-    id: 13,
+    id: 17,
     name: 'Ceramide Barrier Cream',
     brand: "Re'equil",
     condition: 'Eczema',
     category: 'Moisturizer',
-    price: '₹450',
+    price: '₹595',
     priceTier: 'Clinical OTC',
-    keyActives: 'Ceramide III + Hyaluronic Acid + Mango Seed Butter',
+    keyActives: 'Ceramides III & VI + Linoleic Acid + Phytosphingosine',
     fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
@@ -204,7 +264,7 @@ export const productsDb = [
     description: 'Lipid-dense barrier restoration cream formulated for severe dry skin, lichenification, and barrier breakdown in tropical and dry climates.'
   },
   {
-    id: 14,
+    id: 18,
     name: 'Bioderma Atoderm Intensive Baume',
     brand: 'Bioderma',
     condition: 'Eczema',
@@ -219,7 +279,7 @@ export const productsDb = [
     description: 'Ultra-soothing restorative balm clinically proven to calm severe eczema flare-ups and interrupt the itch-scratch cycle on cracked, sensitized skin.'
   },
   {
-    id: 15,
+    id: 19,
     name: 'Cetaphil Gentle Skin Cleanser',
     brand: 'Galderma',
     condition: 'Eczema',
@@ -234,7 +294,7 @@ export const productsDb = [
     description: 'Hypoallergenic, fragrance-free non-foaming cleanser that preserves natural moisture barrier while cleansing impurities without stinging raw eczematous skin.'
   },
   {
-    id: 16,
+    id: 20,
     name: 'Aveeno Dermexa Daily Emollient Cream',
     brand: 'Aveeno',
     condition: 'Eczema',
@@ -249,11 +309,26 @@ export const productsDb = [
     description: 'Intensive soothing emollient formulated for very dry, itchy, prone-to-atopic skin. Relieves persistent itchiness and visibly smooths rough scaly patches.'
   },
   {
-    id: 17,
+    id: 21,
+    name: 'Curatio Atogla Sensitive Skin Lotion',
+    brand: 'Curatio Healthcare',
+    condition: 'Eczema',
+    category: 'Moisturizer',
+    price: '₹420',
+    priceTier: 'Pediatric & Clinical',
+    keyActives: 'GLA (Gamma Linolenic Acid) + Ceramides + Cholesterol + Aloe Vera',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply after every wash over face and body to rebuild stratum corneum lipids.',
+    description: 'Clinically tested restorative formula that replenishes essential fatty acids and protects compromised barrier from environmental irritants.'
+  },
+  {
+    id: 22,
     name: 'Sun Pharma Moisturex Soft Paraffin Cream',
     brand: 'Sun Pharma',
     condition: 'Eczema',
-    category: 'Barrier Cream',
+    category: 'Moisturizer',
     price: '₹195',
     priceTier: 'Essential Pharmacy',
     keyActives: 'White Soft Paraffin IP + Liquid Paraffin IP',
@@ -264,7 +339,7 @@ export const productsDb = [
     description: 'High-efficacy occlusive emollient widely stocked across government PHCs and rural dispensaries. Forms an impenetrable barrier to prevent trans-epidermal water loss.'
   },
   {
-    id: 18,
+    id: 23,
     name: "Dr. Reddy's Venusia Max Moisturizing Lotion",
     brand: "Dr. Reddy's Laboratories",
     condition: 'Eczema',
@@ -279,42 +354,104 @@ export const productsDb = [
     description: '3-way lipid replenisher that locks in cutaneous moisture for up to 48 hours. Prevents epidermal water loss caused by hot showers and dry weather.'
   },
 
-  // ─── TINEA & FUNGAL RASH ───
+  // ─── 4. ROSACEA & FACIAL REDNESS ───
   {
-    id: 19,
-    name: 'Candid Dusting Powder (Clotrimazole 1%)',
-    brand: 'Glenmark Pharmaceuticals',
-    condition: 'Tinea & Fungal Rash',
-    category: 'Treatment',
-    price: '₹145',
-    priceTier: 'Essential Indian OTC',
-    keyActives: '1% Clotrimazole IP + Anti-Chafing Absorbent Base',
+    id: 24,
+    name: 'Bioderma Sensibio H2O Soothing Micellar Solution',
+    brand: 'Bioderma',
+    condition: 'Rosacea & Facial Redness',
+    category: 'Cleanser',
+    price: '₹395',
+    priceTier: 'Dermatological Micellar',
+    keyActives: 'Biomimetic Micelles + Cucumber Fruit Extract (pH 5.5)',
     fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
-    howToUse: 'Dust generously across skin folds, groin, axilla, and under-breast areas twice daily after drying completely.',
-    description: 'Premier broad-spectrum antifungal dusting powder in India. Absorbs moisture and perspiration in high heat while eradicating dermatophytes.'
+    howToUse: 'Soak cotton pad and gently cleanse face without rubbing or water rinsing.',
+    description: 'The global benchmark for reactive, rosacea-prone skin. Cleanses microscopic pollutants while respecting skin barrier equilibrium and calming vascular flushing.'
   },
   {
-    id: 20,
-    name: 'Sun Pharma Sebifin 1% Terbinafine Cream',
-    brand: 'Sun Pharma',
-    condition: 'Tinea & Fungal Rash',
+    id: 25,
+    name: 'Micro Labs Aziderm 10% Azelaic Gel',
+    brand: 'Micro Labs',
+    condition: 'Rosacea & Facial Redness',
     category: 'Treatment',
-    price: '₹180',
-    priceTier: 'Pharmacy Standard',
-    keyActives: '1% Terbinafine Hydrochloride',
+    price: '₹285',
+    priceTier: 'Dermatology Pharmacy',
+    keyActives: '10% Micronized Azelaic Acid',
     fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
-    howToUse: 'Apply thin layer extending 2 cm beyond the visible lesion border twice daily for 2 to 3 weeks.',
-    description: 'Directly fungicidal topical cream for Tinea Corporis and Tinea Cruris. Eradicates fungal cell membranes rather than just arresting growth, reducing recurrence risk.'
+    howToUse: 'Apply a thin film over flushed central facial zones once daily at bedtime.',
+    description: 'First-line FDA and IADVL therapeutic agent for papulopustular rosacea. Potently downregulates cathelicidin LL-37 expression to arrest facial erythema.'
   },
   {
-    id: 21,
+    id: 26,
+    name: 'Minimalist Centella Asiatica & Ceramide Soothing Serum',
+    brand: 'Minimalist',
+    condition: 'Rosacea & Facial Redness',
+    category: 'Treatment',
+    price: '₹599',
+    priceTier: 'Clinical OTC',
+    keyActives: 'Madecassoside + Asiaticoside + Pure Centella Asiatica Extract',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Pat 3 drops into cleansed facial skin morning and night before moisturizing.',
+    description: 'Rapidly relieves micro-capillary burning, hot flushes, and cutaneous reactivity in sensitive dark skin types susceptible to vascular reactivity.'
+  },
+  {
+    id: 27,
+    name: 'Sebamed Clear Face Care Gel (Physiological pH 5.5)',
+    brand: 'Sebamed',
+    condition: 'Rosacea & Facial Redness',
+    category: 'Moisturizer',
+    price: '₹475',
+    priceTier: 'Clinical OTC',
+    keyActives: 'Hyaluronic Acid + Allantoin + Panthenol',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply lightly across face whenever tight, heated, or sensitive sensations arise.',
+    description: 'Completely lipid-free, water-based hydrator that prevents cutaneous heat-trapping. Does not occlude delicate capillaries or trigger flushing.'
+  },
+  {
+    id: 28,
+    name: 'Avene Thermal Spring Water Soothing Spray',
+    brand: 'Pierre Fabre / Avene',
+    condition: 'Rosacea & Facial Redness',
+    category: 'Soothing Gel',
+    price: '₹710',
+    priceTier: 'Medical Grade Mist',
+    keyActives: 'Low Mineralized Silicate Water + Aquaphilus Dolomiae',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Mist directly over face during flushing episodes, allow 2 minutes then pat dry gently.',
+    description: 'Clinically documented anti-inflammatory mist. Immediately lowers skin surface temperature and terminates acute heat-induced facial erythema.'
+  },
+  {
+    id: 29,
+    name: 'Emcure Blynds AC Emulgel SPF 50+ PA+++',
+    brand: 'Emcure Pharmaceuticals',
+    condition: 'Rosacea & Facial Redness',
+    category: 'Sunscreen',
+    price: '₹490',
+    priceTier: 'Pharma Grade',
+    keyActives: 'Micro-Encapsulated UV Filters + Emulgel Cooling Matrix',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply generous layer every morning before heat or sun exposure.',
+    description: 'Gentle emulgel sunscreen that blocks erythema-inducing UVA and infrared radiation without irritating dilated capillaries or creating a heavy mask.'
+  },
+
+  // ─── 5. FUNGAL ACNE (MALASSEZIA FOLLICULITIS) ───
+  {
+    id: 30,
     name: 'Scalpe Pro Ketoconazole 2% Anti-Fungal Wash',
     brand: 'Glenmark Pharmaceuticals',
-    condition: 'Tinea & Fungal Rash',
+    condition: 'Fungal Acne (Malassezia Folliculitis)',
     category: 'Cleanser',
     price: '₹280',
     priceTier: 'Pharmacy Grade',
@@ -322,31 +459,352 @@ export const productsDb = [
     fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
-    howToUse: 'Lather onto affected body areas or scalp, leave for 3 minutes before rinsing off completely.',
-    description: 'Medicated antifungal body and scalp wash. Rapidly clears Malassezia folliculitis, tinea versicolor, and fungal rashes exacerbated by tropical humidity.'
+    howToUse: 'Lather onto forehead, temples, or chest for 3-5 minutes before rinsing off completely. Use 3x weekly.',
+    description: 'Medicated antifungal wash used for short-contact facial therapy. Eradicates lipophilic Malassezia yeasts causing uniform itchy papules.'
   },
   {
-    id: 22,
-    name: 'Piramal Lacto Calamine Daily Skin Balance',
-    brand: 'Piramal Healthcare',
-    condition: 'Tinea & Fungal Rash',
-    category: 'Soothing Lotion',
-    price: '₹170',
-    priceTier: 'Household OTC',
-    keyActives: 'Kaolin Clay + Zinc Oxide + Glycerin',
+    id: 31,
+    name: 'Sebamed Clear Face Care Gel (Zero Fatty Esters)',
+    brand: 'Sebamed',
+    condition: 'Fungal Acne (Malassezia Folliculitis)',
+    category: 'Moisturizer',
+    price: '₹475',
+    priceTier: 'Clinical Standard',
+    keyActives: 'Hyaluronic Acid + Allantoin + Aloe Barbadensis',
     fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
-    howToUse: 'Shake well and dab onto itchy, sweaty folds to maintain dryness and soothe burning sensations.',
-    description: 'Astringent calamine and zinc oxide lotion. Keeps skin dry and protected, suppressing fungal micro-environments without stinging irritated epidermis.'
+    howToUse: 'Apply thin layer morning and night. 100% Malassezia safe.',
+    description: 'One of the few globally verified 100% fungal-acne-safe moisturizers. Free of polysorbates, fatty acids, and esters that feed Malassezia yeast.'
+  },
+  {
+    id: 32,
+    name: 'Minimalist 10% Niacinamide + Zinc Serum',
+    brand: 'Minimalist',
+    condition: 'Fungal Acne (Malassezia Folliculitis)',
+    category: 'Treatment',
+    price: '₹599',
+    priceTier: 'Clinical OTC',
+    keyActives: '10% Pure Niacinamide + 1% Zinc PCA + EUK-134',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply 3 drops onto clean forehead and T-zone twice daily.',
+    description: 'Regulates facial sebum production, starves lipid-dependent yeasts, and calms follicular inflammation without clogging hair follicles.'
+  },
+  {
+    id: 33,
+    name: 'Cipla Saslic 1% Salicylic Acid Face Wash',
+    brand: 'Cipla Health',
+    condition: 'Fungal Acne (Malassezia Folliculitis)',
+    category: 'Cleanser',
+    price: '₹380',
+    priceTier: 'Clinical OTC',
+    keyActives: '1% Salicylic Acid Micro-Foam Base',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Use on alternate days to gently dissolve keratin plugs trapped over yeast follicles.',
+    description: 'Exfoliates follicular ostia and loosens sebum accumulations where Malassezia yeast clusters thrive.'
+  },
+  {
+    id: 34,
+    name: "Re'equil Oxybenzone & OMC Free Sunscreen SPF 50",
+    brand: "Re'equil",
+    condition: 'Fungal Acne (Malassezia Folliculitis)',
+    category: 'Sunscreen',
+    price: '₹550',
+    priceTier: 'Dermatologist Standard',
+    keyActives: 'Corallina Officinalis Extract + Eulexin + Physical Filters',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply evenly 15 minutes before sun exposure.',
+    description: 'Fungal-acne safe broad spectrum sunscreen formulated without comedogenic fatty esters or triglycerides that trigger follicular flares.'
+  },
+  {
+    id: 35,
+    name: 'Curatio Clocip 1% Antifungal Gel',
+    brand: 'Curatio Healthcare',
+    condition: 'Fungal Acne (Malassezia Folliculitis)',
+    category: 'Treatment',
+    price: '₹130',
+    priceTier: 'Essential Pharmacy',
+    keyActives: '1% Clotrimazole IP Gel Formulation',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Spot apply onto persistent itchy forehead papules at bedtime for 10-14 days.',
+    description: 'Broad-spectrum imidazole topical gel that inhibits ergosterol biosynthesis in yeast cell membranes, clearing stubborn follicular pustules.'
   },
 
-  // ─── DRY SKIN & XEROSIS ───
+  // ─── 6. SEBORRHEIC DERMATITIS ───
   {
-    id: 23,
+    id: 36,
+    name: 'Scalpe Plus Anti-Dandruff & Facial Cleanser',
+    brand: 'Glenmark Pharmaceuticals',
+    condition: 'Seborrheic Dermatitis',
+    category: 'Cleanser',
+    price: '₹290',
+    priceTier: 'Pharmacy Standard',
+    keyActives: '2% Ketoconazole + 1% Zinc Pyrithione (ZPTO)',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Massage gently across nasolabial folds, eyebrows, and hairline. Leave for 3 minutes before rinsing.',
+    description: 'Clinical antifungal and anti-proliferative cleanser that eliminates greasy yellowish scales and controls sebum-driven dermatitis.'
+  },
+  {
+    id: 37,
+    name: 'Bioderma Sensibio DS+ Soothing Purifying Cream',
+    brand: 'Bioderma',
+    condition: 'Seborrheic Dermatitis',
+    category: 'Moisturizer',
+    price: '₹850',
+    priceTier: 'Specialist Medical',
+    keyActives: 'Piroctone Olamine + Climbazole + Enoxolone (Anti-Redness)',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply morning and night to clean skin, focusing on eyebrows, nose wings, and chin.',
+    description: 'Tailor-made dermo-cosmetic cream that suppresses Malassezia yeast proliferation while soothing irritated, red, flaking facial areas.'
+  },
+  {
+    id: 38,
+    name: 'Sun Pharma Sebifin 1% Terbinafine Cream',
+    brand: 'Sun Pharma',
+    condition: 'Seborrheic Dermatitis',
+    category: 'Treatment',
+    price: '₹180',
+    priceTier: 'Essential Pharmacy',
+    keyActives: '1% Terbinafine Hydrochloride IP',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply a pea-sized amount along the sides of the nose and hairline once daily for 2 weeks.',
+    description: 'Fungicidal allylamine that directly eliminates scalp and facial seborrheic fungus, relieving itching and burning sensations.'
+  },
+  {
+    id: 39,
+    name: 'Ducray Kelual DS Squamo-Reducing Soothing Cream',
+    brand: 'Pierre Fabre / Ducray',
+    condition: 'Seborrheic Dermatitis',
+    category: 'Treatment',
+    price: '₹720',
+    priceTier: 'Dermatological Specialty',
+    keyActives: 'Keluamid + Crotamiton + Sabal Extract',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply after cleansing on active scaly patches for an intensive 2-week phase, then 2x weekly.',
+    description: 'Detaches stubborn greasy scales along the nasolabial fold and eyebrows while curbing sebum hyperactivity.'
+  },
+  {
+    id: 40,
+    name: 'Cetaphil PRO Oil Control Foam Wash',
+    brand: 'Galderma',
+    condition: 'Seborrheic Dermatitis',
+    category: 'Cleanser',
+    price: '₹750',
+    priceTier: 'Clinical Standard',
+    keyActives: 'Zinc Coceth Sulfate + Licorice Root Extract',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Use daily to gently cleanse excess oil without stripping the compromised skin barrier.',
+    description: 'Soap-free foam that balances sebum without drying out the sensitive, scaling epidermis characteristic of facial seborrhea.'
+  },
+  {
+    id: 41,
+    name: 'Curatio Atogla Resvera Face Gel',
+    brand: 'Curatio Healthcare',
+    condition: 'Seborrheic Dermatitis',
+    category: 'Soothing Gel',
+    price: '₹490',
+    priceTier: 'Dermatology Standard',
+    keyActives: 'Resveratrol + Ceramide III + Aloe Vera (pH 5.5)',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Smooth over flaky patches morning and evening to maintain moisture without greasy weight.',
+    description: 'Lightweight soothing gel that calms redness and repairs lipid deficiency without heavy comedogenic waxes.'
+  },
+
+  // ─── 7. PERIORAL DERMATITIS ───
+  {
+    id: 42,
+    name: 'Avene Cicalfate+ Restorative Protective Cream',
+    brand: 'Pierre Fabre / Avene',
+    condition: 'Perioral Dermatitis',
+    category: 'Moisturizer',
+    price: '₹890',
+    priceTier: 'Medical Grade Barrier',
+    keyActives: '[C+-Restore] Postbiotic Active + Copper-Zinc Sulfate',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply twice daily around mouth and chin on clean, dry skin. Discontinue all other cosmetics.',
+    description: 'First-line non-steroidal barrier repairing cream for perioral dermatitis. Purifies skin and accelerates epidermal repair while halting burning sensations.'
+  },
+  {
+    id: 43,
+    name: 'Micro Labs Aziderm 10% Azelaic Gel',
+    brand: 'Micro Labs',
+    condition: 'Perioral Dermatitis',
+    category: 'Treatment',
+    price: '₹285',
+    priceTier: 'Dermatology Standard',
+    keyActives: '10% Micronized Azelaic Acid',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Gently dab onto red papules around lips once daily in the evening.',
+    description: 'Dermatologist-recommended non-steroidal active that clears inflammatory perioral papules without triggering steroid rebound flares.'
+  },
+  {
+    id: 44,
+    name: 'Cetaphil Gentle Skin Cleanser (Zero Soap / Zero Fragrance)',
+    brand: 'Galderma',
+    condition: 'Perioral Dermatitis',
+    category: 'Cleanser',
+    price: '₹330',
+    priceTier: 'Clinical Standard',
+    keyActives: 'Niacinamide + Panthenol + Glycerin',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Wash face using lukewarm water and gentle patting. Do not rub with towels.',
+    description: 'Essential zero-irritation wash. Eliminates friction and sulfate surfactants which are primary triggers for perioral eruptions.'
+  },
+  {
+    id: 45,
+    name: 'La Roche-Posay Cicaplast Baume B5+',
+    brand: "L'Oreal Dermatological",
+    condition: 'Perioral Dermatitis',
+    category: 'Moisturizer',
+    price: '₹950',
+    priceTier: 'Dermatological Balm',
+    keyActives: 'Madecassoside + 5% Panthenol + Tribioma Prebiotic',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply sparingly to peri-nasal and peri-oral skin twice daily until redness clears.',
+    description: 'Soothing multi-purpose balm that rebalances the microbiome and calms severe stinging around the nasolabial folds and lips.'
+  },
+  {
+    id: 46,
+    name: 'Bioderma Cicabio Creme Soothing Repairing Care',
+    brand: 'Bioderma',
+    condition: 'Perioral Dermatitis',
+    category: 'Soothing Gel',
+    price: '₹650',
+    priceTier: 'Medical Grade',
+    keyActives: 'Antalgicine Active + Resveratrol + Copper-Zinc',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply gently onto cleansed perioral skin until fully reconstructed.',
+    description: 'Instantly relieves the urge to scratch and soothes uncomfortable tightness and burning around the perioral zone.'
+  },
+
+  // ─── 8. ENLARGED PORES & EXCESS SEBUM ───
+  {
+    id: 47,
+    name: 'Cipla Saslic 1% Foaming Salicylic Cleanser',
+    brand: 'Cipla Health',
+    condition: 'Enlarged Pores & Excess Sebum',
+    category: 'Cleanser',
+    price: '₹380',
+    priceTier: 'Clinical OTC',
+    keyActives: '1% Salicylic Acid Micro-Bubble Solution',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Dispense 1 pump of foam, massage over oily T-zone for 45 seconds, rinse with cool water.',
+    description: 'Lipophilic BHA foam that penetrates pore walls to dissolve trapped sebum and oxidized blackheads, visibly tightening dilated pore structures.'
+  },
+  {
+    id: 48,
+    name: 'The Derma Co 10% Niacinamide Serum with Zinc PCA',
+    brand: 'The Derma Co',
+    condition: 'Enlarged Pores & Excess Sebum',
+    category: 'Treatment',
+    price: '₹599',
+    priceTier: 'Affordable Clinical',
+    keyActives: '10% Niacinamide + 1% Zinc PCA + Hyaluronic Acid',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply 3-4 drops morning and evening after washing before creams.',
+    description: 'Clinically proven to normalize sebaceous gland output, reduce midday greasy shine, and improve pore elasticity across tropical climates.'
+  },
+  {
+    id: 49,
+    name: 'Minimalist 2% BHA (Salicylic Acid) Serum',
+    brand: 'Minimalist',
+    condition: 'Enlarged Pores & Excess Sebum',
+    category: 'Treatment',
+    price: '₹549',
+    priceTier: 'Clinical OTC',
+    keyActives: '2% Salicylic Acid + Aloe Juice + Hyaluronic Acid',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply 2-3 drops 3 nights a week onto nose, forehead, and chin.',
+    description: 'High-purity pore-clearing serum that chemically unglues dead corneocyte clusters, preventing pore stretching and stubborn congestion.'
+  },
+  {
+    id: 50,
+    name: 'Cipla Excela Sebum Regulating Moisturizer',
+    brand: 'Cipla Health',
+    condition: 'Enlarged Pores & Excess Sebum',
+    category: 'Moisturizer',
+    price: '₹495',
+    priceTier: 'Clinical OTC',
+    keyActives: 'Enantia Chlorantha Extract + Oleanolic Acid',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Smooth 1 pump over entire face in morning and evening.',
+    description: 'Non-comedogenic mattifying cream that reduces sebum excretion rate by up to 32% while maintaining internal cellular hydration.'
+  },
+  {
+    id: 51,
+    name: 'Glenmark Episoft AC Moisturizer with SPF 30',
+    brand: 'Glenmark Pharmaceuticals',
+    condition: 'Enlarged Pores & Excess Sebum',
+    category: 'Sunscreen',
+    price: '₹550',
+    priceTier: 'Dermatologist Standard',
+    keyActives: 'Octinoxate + Avobenzone + Microfine Mattifying Powders',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply daily in the morning as your combined daytime moisturizer and UV filter.',
+    description: '2-in-1 oil-free moisturizer with sunscreen specifically engineered for oily skin in humid Indian conditions. Absorbs quickly with zero greasy film.'
+  },
+  {
+    id: 52,
+    name: 'Sebamed Clear Face Care Gel (Oil-Free)',
+    brand: 'Sebamed',
+    condition: 'Enlarged Pores & Excess Sebum',
+    category: 'Soothing Gel',
+    price: '₹475',
+    priceTier: 'Clinical OTC',
+    keyActives: 'Hyaluronic Acid + Panthenol + Aloe Barbadensis (pH 5.5)',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Smooth over face as a lightweight hydration shield.',
+    description: 'Water-gel texture that delivers immediate hydration without a single drop of pore-clogging lipid, preserving matte skin all day.'
+  },
+
+  // ─── 9. DRY SKIN & BARRIER DAMAGE ───
+  {
+    id: 53,
     name: 'Moisturex 10% Urea & Lactic Acid Cream',
     brand: 'Sun Pharma',
-    condition: 'Dry Skin & Xerosis',
+    condition: 'Dry Skin & Barrier Damage',
     category: 'Moisturizer',
     price: '₹260',
     priceTier: 'Dermatology Staple',
@@ -354,14 +812,14 @@ export const productsDb = [
     fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
-    howToUse: 'Massage into rough, thickened, or scaly areas (elbows, shins, heels) once or twice daily after washing.',
-    description: 'Potent keratolytic moisturizing cream. Chemically dissolves thick dead keratin scales while pulling atmospheric moisture deep into dry, cracked skin.'
+    howToUse: 'Massage into dry, rough, or flaking skin once or twice daily after washing.',
+    description: 'Potent keratolytic moisturizing cream. Chemically dissolves dead keratin scales while pulling atmospheric moisture deep into parched skin.'
   },
   {
-    id: 24,
+    id: 54,
     name: 'Cetaphil DAM DailyAdvance Hydrating Lotion',
     brand: 'Galderma',
-    condition: 'Dry Skin & Xerosis',
+    condition: 'Dry Skin & Barrier Damage',
     category: 'Moisturizer',
     price: '₹490',
     priceTier: 'Clinical Standard',
@@ -370,27 +828,72 @@ export const productsDb = [
     doctorValidated: true,
     availableInIndia: true,
     howToUse: 'Apply daily all over face and body for continuous hydration.',
-    description: 'Clinically proven 48-hour continuous hydration for dry, sensitive, irritated skin. Restores cutaneous micro-elasticity without leaving sticky or greasy residue.'
+    description: 'Clinically proven 48-hour continuous hydration for dry, sensitive, irritated skin. Restores cutaneous micro-elasticity without sticky residue.'
   },
   {
-    id: 25,
-    name: 'Ranbaxy Logifeel Intensive Exfoliating Cream',
-    brand: 'Sun Pharma / Ranbaxy',
-    condition: 'Dry Skin & Xerosis',
-    category: 'Treatment',
-    price: '₹230',
-    priceTier: 'Pharmacy Standard',
-    keyActives: 'Glycolic Acid + Urea + Cetyl Alcohol',
+    id: 55,
+    name: 'CeraVe Moisturizing Cream with 3 Essential Ceramides',
+    brand: "L'Oreal Dermatological / CeraVe",
+    condition: 'Dry Skin & Barrier Damage',
+    category: 'Moisturizer',
+    price: '₹450',
+    priceTier: 'Global Benchmark',
+    keyActives: 'Ceramides 1, 3, 6-II + MVE Delivery Technology + Hyaluronic Acid',
     fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
-    howToUse: 'Apply generously at night to cracked heels, knees, and dry keratotic shins.',
-    description: 'Dual AHA and urea therapy that exfoliates stubborn hyperkeratotic plaques and restores soft, supple skin texture on chronically parched limbs.'
+    howToUse: 'Smooth generously over cleansed skin morning and night.',
+    description: 'Patented MultiVesicular Emulsion (MVE) releases nourishing ceramides over 24 hours to rebuild the impaired stratum corneum.'
+  },
+  {
+    id: 56,
+    name: 'Minimalist 5% Marula Oil & Hyaluronic Moisturizer',
+    brand: 'Minimalist',
+    condition: 'Dry Skin & Barrier Damage',
+    category: 'Moisturizer',
+    price: '₹449',
+    priceTier: 'Clinical OTC',
+    keyActives: '5% Cold Pressed Marula Oil + Vitamin F + Betaine + HA',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply 1-2 pumps onto damp face to lock in hydration.',
+    description: 'Deeply nourishing yet non-comedogenic cream that provides fatty acid replenishment to dry, dehydrated, and tight skin.'
+  },
+  {
+    id: 57,
+    name: 'Physiogel Daily Moisture Therapy Cream',
+    brand: 'Stiefel / GSK',
+    condition: 'Dry Skin & Barrier Damage',
+    category: 'Moisturizer',
+    price: '₹680',
+    priceTier: 'Medical Grade Barrier',
+    keyActives: 'BioMimic Technology + Hydrogenated Lecithin + Squalane',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Gently press into face twice daily after cleansing.',
+    description: 'BioMimic formula replicates natural lamellar lipid structures, making dry skin noticeably less sensitive and rebuilding barrier integrity.'
+  },
+  {
+    id: 58,
+    name: 'Cetaphil Gentle Skin Cleanser (Hydrating Formula)',
+    brand: 'Galderma',
+    condition: 'Dry Skin & Barrier Damage',
+    category: 'Cleanser',
+    price: '₹330',
+    priceTier: 'Clinical Benchmark',
+    keyActives: 'Glycerin + Niacinamide + Panthenol',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Cleanse face with lukewarm water, gently massaging without lathering.',
+    description: 'Non-foaming hydrating wash that removes impurities without stripping the fragile lipid barrier or triggering tight post-wash sensations.'
   },
 
-  // ─── SUN PROTECTION (ZERO WHITE CAST) ───
+  // ─── 10. SUN PROTECTION (ZERO WHITE CAST) ───
   {
-    id: 26,
+    id: 59,
     name: 'Brinton UV Doux Silicone Sunscreen Gel SPF 50',
     brand: 'Brinton Pharmaceuticals',
     condition: 'Sun Protection (Zero White Cast)',
@@ -398,14 +901,14 @@ export const productsDb = [
     price: '₹695',
     priceTier: 'Dermatology Benchmark',
     keyActives: 'Octyl Methoxycinnamate + Micronized Minerals + Silicone Matrix',
-    fitzpatrickSuitable: ['IV', 'V', 'VI', 'I', 'II', 'III'],
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
     howToUse: 'Dot evenly across face and neck, spread smoothly 15 minutes before stepping into direct sunlight.',
     description: 'High-adherence matte silicone sunscreen gel. Completely invisible on dark skin tones (Fitzpatrick V & VI) with zero white cast or sweating off.'
   },
   {
-    id: 27,
+    id: 60,
     name: 'Emcure Blynds AC Gel SPF 50+ PA+++',
     brand: 'Emcure Pharmaceuticals',
     condition: 'Sun Protection (Zero White Cast)',
@@ -413,14 +916,14 @@ export const productsDb = [
     price: '₹490',
     priceTier: 'Pharma Grade',
     keyActives: 'Micro-Encapsulated UV Filters + Emulgel Technology',
-    fitzpatrickSuitable: ['IV', 'V', 'VI', 'I', 'II', 'III'],
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
     howToUse: 'Pump 2 coin-sized amounts and apply uniformly over exposed skin.',
     description: 'Lightweight water-based emulgel designed for humid tropical conditions. Absorbs instantly into melanin-rich skin with no residue or comedone formation.'
   },
   {
-    id: 28,
+    id: 61,
     name: 'Minimalist Light Fluid Sunscreen SPF 50 PA++++',
     brand: 'Minimalist',
     condition: 'Sun Protection (Zero White Cast)',
@@ -428,47 +931,112 @@ export const productsDb = [
     price: '₹499',
     priceTier: 'Clinical OTC',
     keyActives: 'New-Gen UV Filters (Uvinul A Plus, Tinosorb S) + Vitamin F',
-    fitzpatrickSuitable: ['IV', 'V', 'VI', 'I', 'II', 'III'],
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
     doctorValidated: true,
     availableInIndia: true,
     howToUse: 'Shake well. Apply smoothly across face and ears as the final step of AM skincare.',
     description: 'Ultra-light fluid sunscreen extensively tested on Fitzpatrick phototypes IV to VI. High UVA-PF / PPD prevents melasma darkening without white ghosting.'
+  },
+  {
+    id: 62,
+    name: "Re'equil Ultra Matte Dry Touch Sunscreen SPF 50",
+    brand: "Re'equil",
+    condition: 'Sun Protection (Zero White Cast)',
+    category: 'Sunscreen',
+    price: '₹700',
+    priceTier: 'Dermatologist Standard',
+    keyActives: 'Physical & Chemical Hybrid Filters (Uvinul T 150, Titanium Dioxide)',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Smooth 2 finger-lengths evenly over face as final AM step.',
+    description: 'Velvety matte finish with water and sweat resistance. Leaves dark Indian skin tones with a soft-focus shine-free finish.'
+  },
+  {
+    id: 63,
+    name: 'Fixderma Shadow Gel SPF 50+ PA+++',
+    brand: 'Fixderma',
+    condition: 'Sun Protection (Zero White Cast)',
+    category: 'Sunscreen',
+    price: '₹485',
+    priceTier: 'Affordable Clinical',
+    keyActives: 'Octinoxate + Titanium Dioxide + Zinc Oxide in Aqueous Gel',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Apply liberally over face 15 minutes before sun exposure.',
+    description: 'Non-greasy, water-based sunscreen gel designed specifically for hot Indian summers. Invisible absorption on Fitzpatrick phototypes IV through VI.'
+  },
+  {
+    id: 64,
+    name: 'Ipca Acne-UV Gel SPF 50 PA+++',
+    brand: 'Ipca Laboratories',
+    condition: 'Sun Protection (Zero White Cast)',
+    category: 'Sunscreen',
+    price: '₹760',
+    priceTier: 'Medical Standard',
+    keyActives: 'Diethylhexyl Butamido Triazone + Avobenzone + Octinoxate',
+    fitzpatrickSuitable: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+    doctorValidated: true,
+    availableInIndia: true,
+    howToUse: 'Dot over entire face and gently blend outwards until absorbed.',
+    description: 'Dermatologist favorite for acne-prone patients. Broad-spectrum protection that will not induce white casts, blackheads, or greasy sheen.'
   }
 ];
 
-const ROUTINE_GUIDES = {
+export const ROUTINE_GUIDES = {
   'Acne (Comedonal)': {
     morning: 'Salicylic / syndet cleanser → 10% Azelaic Acid or Niacinamide → Non-comedogenic oil-free moisturizer → Matte SPF 50 gel (zero white cast).',
     evening: 'Gentle foaming cleanse → Targeted Salicylic / Sebogel on breakout zones → Lightweight barrier care (Sebamed gel / Excela Max).'
   },
   'Hyperpigmentation': {
     morning: 'Soap-free syndet cleanser (Episoft) → 10% Niacinamide or 2% Alpha Arbutin → Lightweight barrier moisturizer → Broad-spectrum High-PPD Sunscreen.',
-    evening: 'Double cleanse to remove pollution & UV filters → Kojivit Ultra or Glyco-6 on pigmented patches → Ceramide cream to support cellular recovery.'
+    evening: 'Double cleanse to remove pollution & UV filters → Kojivit Ultra or Demelan on pigmented patches → Ceramide cream to support cellular recovery.'
   },
   'Eczema': {
     morning: 'Lukewarm water or syndet cleanser (no harsh soap) → Pat damp (do not rub) → Liberal ceramide / colloidal oat cream → Non-irritating mineral sunscreen.',
     evening: 'Short 5-minute lukewarm bath → Immediate application of thick soft paraffin or Atoderm baume within 3 minutes to seal in hydration overnight.'
   },
-  'Tinea & Fungal Rash': {
-    morning: 'Antifungal wash (Ketoconazole 2%) during bath → Dry skin folds completely with dedicated clean towel → Dust Candid powder in friction zones.',
-    evening: 'Cleanse and thoroughly dry affected annular patch → Apply Terbinafine 1% cream extending 2 cm beyond margin → Wear loose breathable cotton.'
+  'Rosacea & Facial Redness': {
+    morning: 'Gentle micellar solution (Sensibio H2O) or cool water rinse → Centella Asiatica / Madecassoside soothing serum → Cooling water-gel hydrator → Blynds AC Emulgel SPF 50+ to block erythema.',
+    evening: 'Ultra-gentle cleanse without friction → 10% Micronized Azelaic Acid on flushed central T-zone → Lightweight barrier repair moisturizer; avoid alcohol, hot water, and fragrant actives.'
   },
-  'Dry Skin & Xerosis': {
-    morning: 'Hydrating non-foaming wash → DailyAdvance hydrating lotion → Broad-spectrum sunscreen.',
-    evening: 'Warm bath → Keratolytic 10% Urea / Lactic acid cream on rough patches, elbows, shins, and cracked feet → Cotton socks overnight.'
+  'Fungal Acne (Malassezia Folliculitis)': {
+    morning: 'Gentle BHA wash (Saslic 1%) → 10% Niacinamide + Zinc to curb sebum secretion → 100% lipid/ester-free hydrator (Sebamed gel) → Fungal-acne safe broad spectrum SPF 50.',
+    evening: 'Ketoconazole 2% wash lathered for 3-5 minutes (short contact therapy 3x weekly) → Spot treat with Clotrimazole gel on itchy follicular bumps → Light oil-free barrier hydration.'
+  },
+  'Seborrheic Dermatitis': {
+    morning: 'Ketoconazole 2% + ZPTO wash (Scalpe Plus) over eyebrows and nasolabial folds → Soothing Resveratrol or Sensibio DS+ cream → Non-comedogenic mineral/hybrid matte sunscreen.',
+    evening: 'Gentle foaming cleanse → Terbinafine 1% or Kelual DS cream along sides of nose and hairline → Lightweight non-occlusive barrier gel; avoid heavy plant oils (olive, coconut).'
+  },
+  'Perioral Dermatitis': {
+    morning: 'Zero-therapy wash (lukewarm water or Cetaphil gentle soap-free wash only) → Avene Cicalfate+ or Cicaplast Baume B5+ around mouth → Physical mineral SPF without chemical filters or fragrances.',
+    evening: 'Gentle splash cleanse with lukewarm water → Azelaic acid 10% on inflammatory perioral papules → Pure copper-zinc barrier balm; strictly avoid topical corticosteroid creams.'
+  },
+  'Enlarged Pores & Excess Sebum': {
+    morning: 'Saslic 1% BHA foaming wash to clear nighttime sebum → 10% Niacinamide with Zinc PCA to tighten pores → Oil-free mattifying hydrator (Excela) → Dry-touch silicone SPF 50.',
+    evening: 'Double cleanse with BHA cleanser → 2% Salicylic Acid solution on T-zone and nose pores (3 nights/week) → Lightweight physiological pH 5.5 water gel to maintain barrier balance.'
+  },
+  'Dry Skin & Barrier Damage': {
+    morning: 'Hydrating non-foaming wash → BioMimic or CeraVe 3-ceramide cream onto damp skin → Moisturizing broad-spectrum sunscreen.',
+    evening: 'Warm water wash → Keratolytic 10% Urea / Lactic acid or deep lipid replenisher (Moisturex / DAM lotion) → Seal with ceramide cream overnight.'
   },
   'Sun Protection (Zero White Cast)': {
-    morning: 'Hydrate with antioxidant serum / light moisturizer → Apply full 2 finger lengths of silicone/emulgel SPF 50 PA++++ 15 minutes before stepping out.',
-    evening: 'Gentle micellar water or oil cleanse to dissolve water-resistant UV filters → Nourishing ceramide cream.'
+    morning: 'Hydrate with antioxidant serum / light moisturizer → Apply full 2 finger lengths of silicone/emulgel SPF 50 PA++++ 15 minutes before stepping out into direct sunlight.',
+    evening: 'Gentle micellar water or oil cleanse to dissolve water-resistant UV filters → Nourishing ceramide cream to repair sun-exposed skin.'
   }
 };
 
-const CONDITIONS_LIST = [
+export const CONDITIONS_LIST = [
   'Acne (Comedonal)',
   'Hyperpigmentation',
   'Eczema',
-  'Tinea & Fungal Rash',
-  'Dry Skin & Xerosis',
+  'Rosacea & Facial Redness',
+  'Fungal Acne (Malassezia Folliculitis)',
+  'Seborrheic Dermatitis',
+  'Perioral Dermatitis',
+  'Enlarged Pores & Excess Sebum',
+  'Dry Skin & Barrier Damage',
   'Sun Protection (Zero White Cast)'
 ];
 
@@ -480,8 +1048,13 @@ const SkincareEngine = () => {
     if (!saved) return 'Acne (Comedonal)';
     if (saved.includes('Acne')) return 'Acne (Comedonal)';
     if (saved.includes('Hyperpigmentation') || saved.includes('Melasma') || saved.includes('Pigment')) return 'Hyperpigmentation';
-    if (saved.includes('Eczema') || saved.includes('Dermatitis')) return 'Eczema';
-    if (saved.includes('Tinea') || saved.includes('Ringworm') || saved.includes('Fungal')) return 'Tinea & Fungal Rash';
+    if (saved.includes('Eczema') || saved.includes('Atopic')) return 'Eczema';
+    if (saved.includes('Rosacea') || saved.includes('Redness') || saved.includes('Erythema')) return 'Rosacea & Facial Redness';
+    if (saved.includes('Fungal') || saved.includes('Malassezia')) return 'Fungal Acne (Malassezia Folliculitis)';
+    if (saved.includes('Seborrheic')) return 'Seborrheic Dermatitis';
+    if (saved.includes('Perioral')) return 'Perioral Dermatitis';
+    if (saved.includes('Pore') || saved.includes('Sebum') || saved.includes('Oily')) return 'Enlarged Pores & Excess Sebum';
+    if (saved.includes('Dry') || saved.includes('Xerosis') || saved.includes('Barrier')) return 'Dry Skin & Barrier Damage';
     return saved;
   });
 
