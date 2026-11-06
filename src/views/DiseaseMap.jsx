@@ -13,6 +13,7 @@ import { CONDITION_META } from '../lib/fitzpatrick';
 
 export default function DiseaseMap() {
   const { lang, speak } = useLanguage();
+  const isHi = lang === 'hi';
   const [records, setRecords] = useState([]);
   const [, setLoading] = useState(true);
   const [selectedVillage, setSelectedVillage] = useState('All');
@@ -91,22 +92,27 @@ export default function DiseaseMap() {
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold tracking-widest uppercase bg-red-500/15 text-red-300 border border-red-500/30">
-                <span className="size-2 rounded-full bg-red-500 animate-ping" /> Real-Time Surveillance
+                <span className="size-2 rounded-full bg-red-500 animate-ping" /> {isHi ? 'रियल-टाइम निगरानी' : 'Real-Time Surveillance'}
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/5 text-slate-300 border border-white/10">
-                Zero PII · Anonymized Telemetry
+                {isHi ? 'शून्य पीआईआई · सुरक्षित टेलीमेट्री' : 'Zero PII · Anonymized Telemetry'}
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/5 text-slate-300 border border-white/10">
-                72h Cluster Window
+                {isHi ? '72 घंटे क्लस्टर विंडो' : '72h Cluster Window'}
               </span>
             </div>
 
             <h1 className="text-[clamp(1.5rem,4vw,2.5rem)] font-black tracking-tight text-white leading-tight">
-              Epidemiological <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-amber-400 to-teal-400">Outbreak Map</span>
+              {isHi ? 'महामारी विज्ञान ' : 'Epidemiological '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-amber-400 to-teal-400">
+                {isHi ? 'प्रकोप मानचित्र' : 'Outbreak Map'}
+              </span>
             </h1>
 
             <p className="text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
-              Community cluster surveillance across Central Maharashtra rural healthcare corridors (Wardha, Bhandara, Nagpur).
+              {isHi 
+                ? 'मध्य महाराष्ट्र ग्रामीण स्वास्थ्य गलियारों (वर्धा, भंडारा, नागपुर) में सामुदायिक संक्रामक क्लस्टर निगरानी।'
+                : 'Community cluster surveillance across Central Maharashtra rural healthcare corridors (Wardha, Bhandara, Nagpur).'}
             </p>
           </div>
 
@@ -115,7 +121,7 @@ export default function DiseaseMap() {
             className="w-full sm:w-auto min-h-[44px] glow-teal-btn px-6 py-3.5 rounded-2xl flex items-center justify-center gap-2 text-xs font-bold shadow-lg shrink-0 self-start md:self-center"
           >
             <PlusCircle size={16} />
-            <span>Simulate Diagnosis Case</span>
+            <span>{isHi ? 'सिमुलेशन केस जोड़ें' : 'Simulate Diagnosis Case'}</span>
           </button>
         </div>
       </div>
@@ -131,17 +137,21 @@ export default function DiseaseMap() {
               <div className="space-y-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-xs font-mono font-black text-red-400 uppercase tracking-widest">
-                    CLUSTER OUTBREAK DETECTED ({clusters.length} Active)
+                    {isHi ? `सक्रिय क्लस्टर प्रकोप (${clusters.length} सक्रिय)` : `CLUSTER OUTBREAK DETECTED (${clusters.length} Active)`}
                   </span>
                   <span className="text-[11px] font-mono bg-red-500/20 text-red-200 px-2.5 py-0.5 rounded-full border border-red-500/30 font-bold">
-                    72h Threshold ≥ 3 Cases
+                    {isHi ? '72 घंटे में ≥ 3 मामले' : '72h Threshold ≥ 3 Cases'}
                   </span>
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold text-white">
-                  Active {clusters[0].condition} Outbreak in {clusters[0].village} ({clusters[0].count} Cases)
+                  {isHi 
+                    ? `${clusters[0].village} में ${clusters[0].condition} का प्रकोप (${clusters[0].count} मामले)`
+                    : `Active ${clusters[0].condition} Outbreak in ${clusters[0].village} (${clusters[0].count} Cases)`}
                 </h3>
                 <p className="text-xs text-red-200/80 max-w-2xl leading-relaxed">
-                  High secondary household attack rate. Immediate contact tracing, barrier prophylaxis distribution, and primary health centre notification recommended.
+                  {isHi
+                    ? 'उच्च माध्यमिक पारिवारिक प्रसार दर। तत्काल संपर्क ट्रेसिंग, कीटाणुशोधन और प्राथमिक स्वास्थ्य केंद्र अधिसूचना अनुशंसित।'
+                    : 'High secondary household attack rate. Immediate contact tracing, barrier prophylaxis distribution, and primary health centre notification recommended.'}
                 </p>
               </div>
             </div>
@@ -150,7 +160,7 @@ export default function DiseaseMap() {
               onClick={() => speak(`Active ${clusters[0].condition} outbreak detected in ${clusters[0].village}. ${clusters[0].count} cases identified in 72 hours. Notify district health officer.`, lang)}
               className="w-full md:w-auto min-h-[44px] px-5 py-2.5 rounded-2xl bg-red-500 hover:bg-red-400 text-white font-bold text-xs transition flex items-center justify-center gap-2 shrink-0 shadow-lg"
             >
-              <Volume2 size={16} /> Audio Alert
+              <Volume2 size={16} /> {isHi ? 'आवाज़ चेतावनी' : 'Audio Alert'}
             </button>
           </div>
         </div>
@@ -160,49 +170,49 @@ export default function DiseaseMap() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-4">
         <div className="p-4 sm:p-5 rounded-3xl bg-slate-900/70 border border-white/10 backdrop-blur-xl space-y-1 shadow-lg">
           <div className="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-            Cases This Month
+            {isHi ? 'इस माह के कुल मामले' : 'Cases This Month'}
           </div>
           <div className="text-2xl sm:text-3xl font-black text-white font-mono">
             {stats.totalThisMonth}
           </div>
           <div className="text-[11px] text-slate-500">
-            Total records: {stats.totalRecords}
+            {isHi ? 'कुल रिकॉर्ड्स:' : 'Total records:'} {stats.totalRecords}
           </div>
         </div>
 
         <div className="p-4 sm:p-5 rounded-3xl bg-slate-900/70 border border-white/10 backdrop-blur-xl space-y-1 shadow-lg">
           <div className="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-            Active Outbreaks
+            {isHi ? 'सक्रिय प्रकोप' : 'Active Outbreaks'}
           </div>
           <div className="text-2xl sm:text-3xl font-black text-red-400 font-mono">
             {stats.activeClusters}
           </div>
           <div className="text-[11px] text-red-300/80">
-            {stats.activeClusters > 0 ? 'Surveillance Alert Active' : 'Normal Baseline'}
+            {stats.activeClusters > 0 ? (isHi ? 'चेतावनी सक्रिय' : 'Surveillance Alert Active') : (isHi ? 'सामान्य स्तर' : 'Normal Baseline')}
           </div>
         </div>
 
         <div className="p-4 sm:p-5 rounded-3xl bg-slate-900/70 border border-white/10 backdrop-blur-xl space-y-1 shadow-lg">
           <div className="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-            Top Condition
+            {isHi ? 'प्रमुख बीमारी' : 'Top Condition'}
           </div>
           <div className="text-base sm:text-lg font-bold text-teal-300 truncate">
             {stats.mostCommonCondition}
           </div>
           <div className="text-[11px] text-slate-500">
-            Highest cumulative incidence
+            {isHi ? 'सर्वाधिक घटना' : 'Highest cumulative incidence'}
           </div>
         </div>
 
         <div className="p-4 sm:p-5 rounded-3xl bg-slate-900/70 border border-white/10 backdrop-blur-xl space-y-1 shadow-lg">
           <div className="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-            Most Affected Village
+            {isHi ? 'सर्वाधिक प्रभावित गाँव' : 'Most Affected Village'}
           </div>
           <div className="text-base sm:text-lg font-bold text-amber-300 truncate">
             {stats.mostAffectedVillage}
           </div>
           <div className="text-[11px] text-slate-500">
-            Surveillance focus area
+            {isHi ? 'निगरानी केंद्र' : 'Surveillance focus area'}
           </div>
         </div>
       </div>

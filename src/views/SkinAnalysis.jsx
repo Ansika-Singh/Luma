@@ -9,6 +9,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 
 const SkinAnalysis = () => {
   const { t, lang } = useLanguage();
+  const isHi = lang === 'hi';
   const [step, setStep] = useState('capture_front'); // 'capture_front', 'capture_side', 'analyzing', 'results'
   const [scanMethod, setScanMethod] = useState('camera'); // 'camera' | 'upload'
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -239,7 +240,7 @@ const SkinAnalysis = () => {
               }`}
             >
               <Upload size={16} />
-              <span>Upload Photo</span>
+              <span>{isHi ? 'फोटो अपलोड' : 'Upload Photo'}</span>
             </button>
           </div>
 
@@ -251,10 +252,12 @@ const SkinAnalysis = () => {
                 <ShieldCheck size={20} className="text-teal-400 shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <h4 className="text-xs sm:text-sm font-bold text-teal-300">
-                    Offline & Private Lesion Analysis
+                    {isHi ? 'ऑफ़लाइन एवं निजी घाव विश्लेषण' : 'Offline & Private Lesion Analysis'}
                   </h4>
                   <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
-                    If your camera is poor, or if you have a skin condition in a sensitive or private body area, take a high-resolution photo with an external camera in private and upload it here. No images ever leave your device.
+                    {isHi
+                      ? 'यदि कैमरा कमज़ोर है या किसी संवेदनशील/निजी अंग में त्वचा समस्या है, तो सुरक्षित स्थान पर फोटो खींचकर यहाँ अपलोड करें। कोई भी फोटो कभी आपके डिवाइस से बाहर नहीं जाता।'
+                      : 'If your camera is poor, or if you have a skin condition in a sensitive or private body area, take a high-resolution photo with an external camera in private and upload it here. No images ever leave your device.'}
                   </p>
                 </div>
               </div>
@@ -288,10 +291,12 @@ const SkinAnalysis = () => {
 
                   <div className="space-y-1">
                     <h4 className="text-base sm:text-lg font-black text-white">
-                      Upload Skin Photo from Gallery or Files
+                      {isHi ? 'गैलरी या फ़ाइलों से त्वचा की फोटो अपलोड करें' : 'Upload Skin Photo from Gallery or Files'}
                     </h4>
                     <p className="text-xs text-slate-400 max-w-sm">
-                      Supports JPG, PNG, WEBP taken with phones, digital cameras, or dermatoscopes.
+                      {isHi
+                        ? 'फ़ोन, डिजिटल कैमरे या डर्माटोस्कोप से ली गई JPG, PNG, WEBP समर्थित।'
+                        : 'Supports JPG, PNG, WEBP taken with phones, digital cameras, or dermatoscopes.'}
                     </p>
                   </div>
 
@@ -304,7 +309,7 @@ const SkinAnalysis = () => {
                     }}
                   >
                     <Upload size={16} />
-                    <span>Browse Device Files</span>
+                    <span>{isHi ? 'डिवाइस फ़ाइलें चुनें' : 'Browse Device Files'}</span>
                   </button>
 
                   <input

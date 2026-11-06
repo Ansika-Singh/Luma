@@ -3,8 +3,11 @@ import { getHistory, clearHistory } from '../services/historyService';
 import { getMapRecords, formatTimeAgo, riskColor } from '../lib/diseaseMap';
 import { Calendar, Trash2, SplitSquareHorizontal, X, CheckCircle2, History as HistoryIcon, Sparkles } from 'lucide-react';
 import { FITZ_COLORS } from '../lib/fitzpatrick';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const History = () => {
+  const { lang, t } = useLanguage();
+  const isHi = lang === 'hi';
   const [tab, setTab] = useState('personal'); // 'personal' or 'rural_triage'
   const [scans, setScans] = useState([]);
   const [ruralRecords, setRuralRecords] = useState([]);
@@ -68,19 +71,24 @@ const History = () => {
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold tracking-widest uppercase bg-teal-500/15 text-teal-300 border border-teal-500/30">
-                <Sparkles size={12} className="text-teal-400" /> IndexedDB Offline Storage
+                <Sparkles size={12} className="text-teal-400" /> {isHi ? 'इंडेक्सडीडीबी ऑफ़लाइन संग्रहण' : 'IndexedDB Offline Storage'}
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/5 text-slate-300 border border-white/10">
-                100% On-Device
+                {isHi ? '100% ऑन-डिवाइस सुरक्षित' : '100% On-Device'}
               </span>
             </div>
 
             <h1 className="text-[clamp(1.5rem,4vw,2.5rem)] font-black tracking-tight text-white leading-tight">
-              Patient <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-emerald-400 to-pink-500">Records & History</span>
+              {isHi ? 'रोगी ' : 'Patient '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-emerald-400 to-pink-500">
+                {isHi ? 'रिकॉर्ड्स एवं इतिहास' : 'Records & History'}
+              </span>
             </h1>
 
             <p className="text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
-              Track longitudinal lesion evolution, compare healing milestones, and view anonymized village triage entries.
+              {isHi 
+                ? 'घाव के विकास को ट्रैक करें, सुधार की तुलना करें और सुरक्षित स्थानीय लेजर प्रविष्टियाँ देखें।'
+                : 'Track longitudinal lesion evolution, compare healing milestones, and view anonymized village triage entries.'}
             </p>
           </div>
 
@@ -94,7 +102,7 @@ const History = () => {
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              Scan Timeline
+              {isHi ? 'स्कैन समयरेखा' : 'Scan Timeline'}
             </button>
             <button
               onClick={() => setTab('rural_triage')}
@@ -104,7 +112,7 @@ const History = () => {
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              Rural Triage Ledger ({ruralRecords.length})
+              {isHi ? `ग्रामीण ट्राइएज लेजर (${ruralRecords.length})` : `Rural Triage Ledger (${ruralRecords.length})`}
             </button>
           </div>
         </div>
@@ -115,9 +123,11 @@ const History = () => {
           {/* Toolbar */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-3xl bg-slate-900/60 border border-white/10 backdrop-blur-xl">
             <div>
-              <h2 className="text-lg font-bold text-white">Scan Timeline</h2>
+              <h2 className="text-lg font-bold text-white">
+                {isHi ? 'स्कैन समयरेखा' : 'Scan Timeline'}
+              </h2>
               <p className="text-xs text-slate-400">
-                Track your healing progress over time. All data is stored locally.
+                {isHi ? 'समय के साथ घाव सुधार की प्रगति ट्रैक करें। पूरा डेटा स्थानीय रूप से संग्रहीत है।' : 'Track your healing progress over time. All data is stored locally.'}
               </p>
             </div>
 
@@ -133,7 +143,7 @@ const History = () => {
                   aria-label="Toggle compare mode"
                 >
                   <SplitSquareHorizontal size={16} />
-                  <span>{compareMode ? 'Exit Compare' : 'Compare Scans'}</span>
+                  <span>{compareMode ? (isHi ? 'तुलना बंद करें' : 'Exit Compare') : (isHi ? 'स्कैन तुलना करें' : 'Compare Scans')}</span>
                 </button>
 
                 <div className="flex items-center gap-2 pl-3 border-l border-white/10">

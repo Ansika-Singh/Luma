@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Sparkles, CheckCircle2, Sun, Moon, Droplets, Filter, ShieldCheck, IndianRupee, Clock } from 'lucide-react';
 import { FITZ_COLORS, FITZ_LABELS } from '../lib/fitzpatrick';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const productsDb = [
   // ─── 1. ACNE (COMEDONAL & INFLAMMATORY) ───
@@ -1043,6 +1044,8 @@ export const CONDITIONS_LIST = [
 const CATEGORIES = ['All Steps', 'Cleanser', 'Treatment', 'Moisturizer', 'Sunscreen', 'Soothing Gel'];
 
 const SkincareEngine = () => {
+  const { lang, t } = useLanguage();
+  const isHi = lang === 'hi';
   const [selectedCondition, setSelectedCondition] = useState(() => {
     const saved = localStorage.getItem('luma_last_scan_condition');
     if (!saved) return 'Acne (Comedonal)';
@@ -1083,25 +1086,27 @@ const SkincareEngine = () => {
         <div className="relative z-10 space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold tracking-widest uppercase bg-teal-500/15 text-teal-300 border border-teal-500/30">
-              <Sparkles size={12} className="text-teal-400" /> Preventative Dermatology
+              <Sparkles size={12} className="text-teal-400" /> {isHi ? 'निवारक त्वचा विज्ञान' : 'Preventative Dermatology'}
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/5 text-slate-300 border border-white/10">
-              Fitzpatrick V/VI Calibrated
+              {isHi ? 'फ़िट्ज़पैट्रिक V/VI कैलिब्रेटेड' : 'Fitzpatrick V/VI Calibrated'}
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/5 text-slate-300 border border-white/10">
-              Available in India
+              {isHi ? 'भारत में उपलब्ध' : 'Available in India'}
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
-              {productsDb.length} Formulations Cataloged
+              {productsDb.length} {isHi ? 'उत्पाद सूचीबद्ध' : 'Formulations Cataloged'}
             </span>
           </div>
 
           <h1 className="text-[clamp(1.5rem,4vw,2.5rem)] font-black tracking-tight text-white leading-tight">
-            Skincare <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-emerald-400 to-pink-500">Engine</span>
+            {isHi ? 'त्वचा देखभाल ' : 'Skincare '}<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-emerald-400 to-pink-500">{isHi ? 'इंजन' : 'Engine'}</span>
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
-            Dermatologist-curated clinical and OTC skincare products widely available across pharmacies and clinics in India, specifically vetted for melanin-rich skin and tropical climatic resilience.
+            {isHi
+              ? 'भारतीय फार्मेसियों और क्लीनिकों में व्यापक रूप से उपलब्ध त्वचा विशेषज्ञ-क्यूरेटेड उत्पाद, विशेष रूप से मेलेनिन-युक्त गहरे त्वचा टोन और उष्णकटिबंधीय जलवायु के लिए अनुशंसित।'
+              : 'Dermatologist-curated clinical and OTC skincare products widely available across pharmacies and clinics in India, specifically vetted for melanin-rich skin and tropical climatic resilience.'}
           </p>
         </div>
       </div>
@@ -1112,10 +1117,10 @@ const SkincareEngine = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-white/5">
           <div className="space-y-1">
             <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-              <ShieldCheck size={14} className="text-teal-400" /> Active Skin Phototype
+              <ShieldCheck size={14} className="text-teal-400" /> {isHi ? 'सक्रिय त्वचा फोटोप्रकार' : 'Active Skin Phototype'}
             </span>
             <p className="text-[11px] text-slate-400">
-              Recommendations adapt to melanin density & sensitivity. Click any tone to test:
+              {isHi ? 'अनुशंसाएँ मेलेनिन घनत्व और संवेदनशीलता के अनुसार अनुकूलित होती हैं:' : 'Recommendations adapt to melanin density & sensitivity. Click any tone to test:'}
             </p>
           </div>
 
@@ -1147,7 +1152,7 @@ const SkincareEngine = () => {
         {/* Condition Selector Pills */}
         <div className="space-y-2">
           <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-            Viewing Recommendations For:
+            {isHi ? 'इसके लिए उत्पाद अनुशंसाएँ:' : 'Viewing Recommendations For:'}
           </label>
           <div className="flex flex-wrap gap-2.5">
             {CONDITIONS_LIST.map((cond) => {

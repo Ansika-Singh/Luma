@@ -30,4 +30,23 @@ if (typeof window !== 'undefined') {
       getVoices: () => []
     };
   }
+
+  // Mock SpeechRecognition
+  if (!('webkitSpeechRecognition' in window)) {
+    class MockSpeechRecognition {
+      constructor() {
+        this.lang = 'en-IN';
+        this.continuous = false;
+        this.interimResults = false;
+        this.onresult = null;
+        this.onerror = null;
+        this.onend = null;
+      }
+      start() {}
+      stop() { if (this.onend) this.onend(); }
+      abort() { if (this.onend) this.onend(); }
+    }
+    window.webkitSpeechRecognition = MockSpeechRecognition;
+    window.SpeechRecognition = MockSpeechRecognition;
+  }
 }
