@@ -419,14 +419,31 @@ export default function LumaWorkflow() {
 
   // Voice Guidance: Toggle full platform tour narration
   const handleToggleVoiceGuidance = () => {
-    if (isSpeaking) {
-      stopSpeaking();
-    } else {
+    try {
+      if (isSpeaking) {
+        stopSpeaking();
+      } else {
+        setShowVoiceTourCard(true);
+        const overviewText = t('platform_voice_overview');
+        setSpokenGuideText(overviewText || 'Welcome to Luma Clinical Intelligence. An offline AI dermatology platform for rural health workers.');
+        speakPlatformOverview(voiceLang || lang);
+      }
+    } catch (err) {
+      console.warn('Voice guidance error:', err);
+      // Even if TTS fails, still show the text card so user can read
       setShowVoiceTourCard(true);
-      setSpokenGuideText(t('platform_voice_overview'));
-      speakPlatformOverview(voiceLang || lang);
+      setSpokenGuideText(t('platform_voice_overview') || 'Welcome to Luma Clinical Intelligence. An offline AI dermatology platform for rural health workers.');
     }
   };
+
+  // Safe language label lookup — can never throw in render
+  const currentVoiceLangCode = voiceLang || lang || 'en';
+  let currentVoiceLangNative = 'English';
+  try {
+    const allLangs = languages || LANGUAGES || [];
+    const found = allLangs.find(l => l.code === currentVoiceLangCode);
+    if (found && found.native) currentVoiceLangNative = found.native;
+  } catch { /* safely default to English */ }
 
   // Handle Voice Command parsing
   const handleVoiceCommand = (cmd, transcript) => {
@@ -729,7 +746,7 @@ export default function LumaWorkflow() {
                   )}
                 </div>
                 <div className="text-[11px] font-mono text-slate-400">
-                  Bhashini TTS · {(languages || LANGUAGES || []).find(l => l.code === (voiceLang || lang))?.native || 'Indian Language'} ({voiceLang || lang})
+                  Bhashini TTS · {currentVoiceLangNative} ({currentVoiceLangCode})
                 </div>
               </div>
             </div>
