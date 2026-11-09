@@ -13,6 +13,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
+        skipWaiting: true,
+        clientsClaim: true,
+        cleanupOutdatedCaches: true,
         maximumFileSizeToCacheInBytes: 50 * 1024 * 1024, // Raise limit to 50MB to cache all model chunks
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,bin}'],
         runtimeCaching: [
