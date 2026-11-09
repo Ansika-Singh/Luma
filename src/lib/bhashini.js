@@ -289,13 +289,13 @@ export const STRINGS = {
     gu: 'અવાજ બંધ કરો'
   },
   dictate_instructions: {
-    en: 'Voice Guidance',
-    hi: 'आवाज मार्गदर्शन',
-    mr: 'आवाज मार्गदर्शन',
-    ta: 'குரல் வழிகாட்டுதல்',
-    te: 'వాయిస్ గైడెన్స్',
-    bn: 'ভয়েস গাইডেন্স',
-    gu: 'વોઇસ માર્ગદર્શન'
+    en: 'Dictate Instructions',
+    hi: 'आवाज मार्गदर्शन (Dictate)',
+    mr: 'आवाज मार्गदर्शन (Dictate)',
+    ta: 'குரல் வழிகாட்டுதல் (Dictate)',
+    te: 'వాయిస్ గైడెన్స్ (Dictate)',
+    bn: 'ভয়েস গাইডেন্স (Dictate)',
+    gu: 'વોઇસ માર્ગદર્શન (Dictate)'
   },
   stop_audio: {
     en: 'Stop Audio',
@@ -1239,6 +1239,15 @@ export function stopSpeaking() {
   }
 }
 
+// System voices cache
+let systemVoices = [];
+if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+  systemVoices = window.speechSynthesis.getVoices?.() || [];
+  window.speechSynthesis.onvoiceschanged = () => {
+    systemVoices = window.speechSynthesis.getVoices?.() || [];
+  };
+}
+
 /** Play subtle acoustic feedback when voice guidance triggers */
 export function playAudioChime() {
   if (typeof window === 'undefined') return;
@@ -1265,7 +1274,7 @@ export function playAudioChime() {
 
 /**
  * Web Speech API Text-to-Speech Engine
- * Robust multi-voice resolution for Indic languages with safe fallback to prevent silence.
+ * Robust multi-voice resolution with bulletproof fallback across all operating systems.
  */
 export function speak(text, lang = 'en', onComplete = null) {
   if (typeof window === 'undefined') return;
@@ -1292,10 +1301,10 @@ export function speak(text, lang = 'en', onComplete = null) {
     notifySpeechState(true);
 
     const targetLangMeta = LANGUAGES.find((l) => l.code === lang) || { locale: 'en-IN' };
-    const voices = window.speechSynthesis.getVoices?.() || [];
+    const voices = (systemVoices && systemVoices.length > 0) ? systemVoices : (window.speechSynthesis.getVoices?.() || []);
     const code = (lang || 'en').toLowerCase();
 
-    // Search for voice matching exact language code or name
+    // 1. Search for voice matching exact language code or native name
     const nativeVoice = voices.find((v) => {
       const vLang = (v.lang || '').toLowerCase();
       const vName = (v.name || '').toLowerCase();
@@ -1305,39 +1314,49 @@ export function speak(text, lang = 'en', onComplete = null) {
              vName.includes(targetLangMeta.label?.toLowerCase() || '');
     });
 
+    // 2. Search for Indian English voice
     const indianEngVoice = voices.find((v) => 
       (v.lang || '').toLowerCase().includes('en-in') || 
-      (v.name || '').toLowerCase().includes('india') ||
-      (v.lang || '').toLowerCase().startsWith('en')
+      (v.name || '').toLowerCase().includes('india')
     );
 
-    let spokenText = text;
-    let spokenLocale = targetLangMeta.locale || 'en-IN';
-    let chosenVoice = null;
+    // 3. Search for ANY English voice
+    const anyEngVoice = voices.find((v) => (v.lang || '').toLowerCase().startsWith('en'));
 
-    if (nativeVoice) {
-      chosenVoice = nativeVoice;
-      spokenLocale = nativeVoice.lang || spokenLocale;
-    } else if (lang === 'en') {
-      if (indianEngVoice) chosenVoice = indianEngVoice;
+    // 4. Default voice on the system
+    const defaultVoice = voices.find((v) => v.default) || anyEngVoice || voices[0] || null;
+
+    let chosenVoice = null;
+    let spokenLocale = navigator.language || 'en-US';
+    let spokenText = text;
+
+    if (code === 'en') {
+      chosenVoice = indianEngVoice || anyEngVoice || defaultVoice;
+      spokenLocale = chosenVoice ? chosenVoice.lang : (navigator.language || 'en-US');
+      spokenText = text;
     } else {
-      // If no regional voice exists on this OS/device (e.g. Windows without Tamil pack),
-      // passing non-Latin characters to an English/default voice fails silently.
-      // Fall back gracefully to speaking English narration so sound is NEVER absent!
-      if (indianEngVoice) {
-        chosenVoice = indianEngVoice;
-        spokenLocale = indianEngVoice.lang || 'en-IN';
-      }
-      if (text === STRINGS.platform_voice_overview?.[lang]) {
-        spokenText = STRINGS.platform_voice_overview.en;
-      } else if (text === STRINGS.voice_step_1?.[lang]) {
-        spokenText = STRINGS.voice_step_1.en;
-      } else if (text === STRINGS.voice_step_2?.[lang]) {
-        spokenText = STRINGS.voice_step_2.en;
-      } else if (text === STRINGS.voice_step_3?.[lang]) {
-        spokenText = STRINGS.voice_step_3.en;
-      } else if (text === STRINGS.voice_step_4?.[lang]) {
-        spokenText = STRINGS.voice_step_4.en;
+      if (nativeVoice) {
+        chosenVoice = nativeVoice;
+        spokenLocale = nativeVoice.lang || targetLangMeta.locale || 'en-IN';
+        spokenText = text;
+      } else {
+        // Native Indic voice not installed on this OS/browser.
+        // Fall back cleanly to the working system voice (English) so audio is NEVER silent!
+        chosenVoice = indianEngVoice || anyEngVoice || defaultVoice;
+        spokenLocale = chosenVoice ? chosenVoice.lang : (navigator.language || 'en-US');
+        if (text === STRINGS.platform_voice_overview?.[lang]) {
+          spokenText = STRINGS.platform_voice_overview.en;
+        } else if (text === STRINGS.voice_step_1?.[lang]) {
+          spokenText = STRINGS.voice_step_1.en;
+        } else if (text === STRINGS.voice_step_2?.[lang]) {
+          spokenText = STRINGS.voice_step_2.en;
+        } else if (text === STRINGS.voice_step_3?.[lang]) {
+          spokenText = STRINGS.voice_step_3.en;
+        } else if (text === STRINGS.voice_step_4?.[lang]) {
+          spokenText = STRINGS.voice_step_4.en;
+        } else {
+          spokenText = text;
+        }
       }
     }
 
@@ -1346,7 +1365,7 @@ export function speak(text, lang = 'en', onComplete = null) {
     window._lumaSpeechUtterance = utterance;
 
     utterance.lang = spokenLocale;
-    utterance.rate = lang === 'en' ? 0.94 : 0.88;
+    utterance.rate = code === 'en' ? 0.94 : 0.88;
     utterance.pitch = 1.0;
     if (chosenVoice) utterance.voice = chosenVoice;
 
@@ -1360,11 +1379,11 @@ export function speak(text, lang = 'en', onComplete = null) {
       activeUtterance = null;
       notifySpeechState(false);
       console.warn('TTS playback issue:', e);
-      if (lang !== 'en' && e.error !== 'canceled' && e.error !== 'interrupted') {
+      if (e.error !== 'canceled' && e.error !== 'interrupted') {
         try {
           const fallbackPrompt = STRINGS.platform_voice_overview?.en || 'Luma Clinical Intelligence offline triage.';
           const fallbackUtt = new SpeechSynthesisUtterance(fallbackPrompt);
-          fallbackUtt.lang = 'en-IN';
+          fallbackUtt.lang = navigator.language || 'en-US';
           fallbackUtt.rate = 0.92;
           fallbackUtt.onstart = () => notifySpeechState(true);
           fallbackUtt.onend = () => {

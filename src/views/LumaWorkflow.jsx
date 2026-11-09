@@ -393,8 +393,22 @@ export default function LumaWorkflow() {
     setTimeout(() => setCopiedSlip(false), 2500);
   };
 
+  const [spokenGuideText, setSpokenGuideText] = useState('');
+
   // Voice Guidance: Dictate current step out loud
   const dictateCurrentStep = () => {
+    setShowVoiceTourCard(true);
+    let stepText = '';
+    if (step === 1) {
+      stepText = t('voice_step_1');
+    } else if (step === 2) {
+      stepText = t('voice_step_2');
+    } else if (step === 3) {
+      stepText = t('voice_step_3');
+    } else if (step === 4) {
+      stepText = t('voice_step_4');
+    }
+    setSpokenGuideText(stepText || t('platform_voice_overview'));
     speakStepGuidance(step, {
       questionKey: QUESTION_KEYS[historyIdx],
       questionIndex: historyIdx,
@@ -408,6 +422,7 @@ export default function LumaWorkflow() {
       stopSpeaking();
     } else {
       setShowVoiceTourCard(true);
+      setSpokenGuideText(t('platform_voice_overview'));
       speakPlatformOverview(voiceLang || lang);
     }
   };
@@ -603,7 +618,7 @@ export default function LumaWorkflow() {
             {/* Dictate Full Platform Overview & Tour (TTS) */}
             <button
               onClick={handleToggleVoiceGuidance}
-              title={isSpeaking ? t('stop_audio') : t('voice_guidance')}
+              title={isSpeaking ? t('stop_audio') : t('dictate_instructions')}
               className={`min-h-[44px] inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-2xl border text-xs font-bold transition-all shadow-md group shrink-0 ${
                 isSpeaking
                   ? 'bg-amber-500/20 text-amber-200 border-amber-400/50 shadow-[0_0_15px_rgba(245,158,11,0.4)] animate-pulse'
@@ -618,7 +633,7 @@ export default function LumaWorkflow() {
               ) : (
                 <>
                   <Volume2 size={16} className="text-teal-400 group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('voice_guidance')}</span>
+                  <span>{t('dictate_instructions')}</span>
                 </>
               )}
             </button>
@@ -754,7 +769,7 @@ export default function LumaWorkflow() {
           {/* Spoken Paragraph Transcript in the Selected Language */}
           <div className="p-4 sm:p-5 rounded-2xl bg-black/40 border border-white/10 space-y-2">
             <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
-              {t('platform_voice_overview')}
+              {spokenGuideText || t('platform_voice_overview')}
             </p>
           </div>
 
