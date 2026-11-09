@@ -13,31 +13,31 @@ const Layout = ({ children }) => {
     { 
       path: '/triage', 
       label: t('triage_title') || 'Clinical Triage', 
-      shortLabel: lang === 'hi' ? 'ट्राइएज' : 'Triage',
+      shortLabel: t('nav_triage') || 'Triage',
       icon: <Stethoscope size={17} /> 
     },
     { 
       path: '/map', 
       label: t('outbreak_map') || 'Outbreak Map', 
-      shortLabel: lang === 'hi' ? 'मानचित्र' : 'Map',
+      shortLabel: t('nav_map') || 'Map',
       icon: <Map size={17} /> 
     },
     { 
       path: '/skin', 
       label: t('skin') || 'Skin Analysis', 
-      shortLabel: lang === 'hi' ? 'त्वचा' : 'Skin',
+      shortLabel: t('nav_skin') || 'Skin',
       icon: <Camera size={17} /> 
     },
     { 
       path: '/skincare', 
       label: t('skincare') || 'Skincare Engine', 
-      shortLabel: lang === 'hi' ? 'स्किनकेयर' : 'Skincare',
+      shortLabel: t('nav_skincare') || 'Skincare',
       icon: <Sparkles size={17} /> 
     },
     { 
       path: '/history', 
       label: t('history') || 'Patient Records', 
-      shortLabel: lang === 'hi' ? 'रिकॉर्ड्स' : 'Records',
+      shortLabel: t('nav_records') || 'Records',
       icon: <HistoryIcon size={17} /> 
     },
   ];
@@ -137,10 +137,7 @@ const Layout = ({ children }) => {
               <select
                 value={lang}
                 onChange={(e) => {
-                  const val = e.target.value;
-                  if (val === 'en' || val === 'hi') {
-                    setLang(val);
-                  }
+                  setLang(e.target.value);
                 }}
                 className="bg-transparent text-white text-xs sm:text-sm font-bold cursor-pointer focus:outline-none pr-1 min-h-[44px]"
                 aria-label="Select Language"
@@ -149,10 +146,9 @@ const Layout = ({ children }) => {
                   <option 
                     key={l.code} 
                     value={l.code} 
-                    disabled={!l.active}
                     className="bg-slate-900 text-white py-1"
                   >
-                    {l.native} ({l.code.toUpperCase()}){l.active ? '' : ' (Coming Soon)'}
+                    {l.native} ({l.code.toUpperCase()})
                   </option>
                 ))}
               </select>
@@ -209,24 +205,24 @@ const Layout = ({ children }) => {
             <span className="text-white font-extrabold tracking-tight">Luma Health</span>
             <span>·</span>
             <span className="text-teal-300 font-medium">
-              {lang === 'hi' ? '100% ऑन-डिवाइस क्लिनिकल ट्राइएज' : '100% On-Device Clinical Triage'}
+              {t('footer_clinical_triage')}
             </span>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 font-mono text-[11px] text-slate-400">
             <span className="px-3 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-300">
-              {lang === 'hi' ? 'फ़िट्ज़पैट्रिक V/VI' : 'Fitzpatrick V/VI'}
+              {t('footer_fitzpatrick')}
             </span>
             <span className="px-3 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-300">
-              {lang === 'hi' ? 'एनएचए पंजीकृत' : 'NHA HFR Registered'}
+              {t('footer_nha')}
             </span>
             <span className="px-3 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-300">
-              {lang === 'hi' ? 'भाषिणी टीटीएस (7 भाषाएं)' : 'Bhashini TTS (7 Lang)'}
+              {t('footer_bhashini')}
             </span>
           </div>
 
           <div className="text-[11px] font-mono text-slate-500">
-            {lang === 'hi' ? 'ऑफ़लाइन निर्णय सहायता प्रणाली · v2.4' : 'Offline Decision Support System · v2.4'}
+            {t('footer_offline_system')}
           </div>
         </div>
       </footer>

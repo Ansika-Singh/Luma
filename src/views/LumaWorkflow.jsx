@@ -32,8 +32,8 @@ export default function LumaWorkflow() {
     lang, setLang, 
     voiceLang, setVoiceLang, 
     t, speak, speakKey, 
-    speakStepGuidance, stopSpeaking, isSpeaking, 
-    voiceLanguages, startVoiceRecognition 
+    speakStepGuidance, speakPlatformOverview, stopSpeaking, isSpeaking, 
+    languages, voiceLanguages, startVoiceRecognition 
   } = useLanguage();
 
   // Workflow steps: 1 = Patient Intake, 2 = Clinical History, 3 = Guided Scan, 4 = Diagnosis & Referral
@@ -77,14 +77,15 @@ export default function LumaWorkflow() {
   const [isListening, setIsListening] = useState(false);
   const [voiceTranscript, setVoiceTranscript] = useState('');
   const [voiceFeedback, setVoiceFeedback] = useState('');
+  const [showVoiceTourCard, setShowVoiceTourCard] = useState(false);
   const recognitionRef = useRef(null);
 
-  // Audio prompt on step changes
+  // Show voice tour card whenever audio is speaking so transcript is visible
   useEffect(() => {
-    if (step === 1) speakKey('patient_details');
-    else if (step === 2) speakKey(QUESTION_KEYS[historyIdx]);
-    else if (step === 3) speakKey('point_at_skin');
-  }, [step, historyIdx, speakKey]);
+    if (isSpeaking) {
+      setShowVoiceTourCard(true);
+    }
+  }, [isSpeaking]);
 
   // Clean up camera stream and voice recognition on unmount
   useEffect(() => {
@@ -401,6 +402,16 @@ export default function LumaWorkflow() {
     });
   };
 
+  // Voice Guidance: Toggle full platform tour narration
+  const handleToggleVoiceGuidance = () => {
+    if (isSpeaking) {
+      stopSpeaking();
+    } else {
+      setShowVoiceTourCard(true);
+      speakPlatformOverview(voiceLang || lang);
+    }
+  };
+
   // Handle Voice Command parsing
   const handleVoiceCommand = (cmd, transcript) => {
     setVoiceTranscript(transcript);
@@ -450,10 +461,11 @@ export default function LumaWorkflow() {
     } else if (cmd.type === 'SWITCH_LANG') {
       setLang(cmd.lang);
       setVoiceLang(cmd.lang);
-      setVoiceFeedback(cmd.lang === 'hi' ? '✓ भाषा बदली: हिंदी' : '✓ Language switched to English');
+      setVoiceFeedback(`✓ ${t('language')}: ${cmd.lang.toUpperCase()}`);
     } else if (cmd.type === 'DICTATE_HELP') {
-      dictateCurrentStep();
-      setVoiceFeedback(voiceLang === 'hi' ? 'निर्देश बोले जा रहे हैं...' : 'Dictating instructions...');
+      setShowVoiceTourCard(true);
+      speakPlatformOverview(voiceLang || lang);
+      setVoiceFeedback(voiceLang === 'hi' ? 'निर्देश बोले जा रहे हैं...' : 'Dictating platform tour...');
     } else if (cmd.type === 'STOP_SPEECH') {
       stopSpeaking();
       setVoiceFeedback(voiceLang === 'hi' ? 'ऑडियो रोक दिया गया' : 'Audio stopped');
@@ -479,12 +491,16 @@ export default function LumaWorkflow() {
       lang: voiceLang,
       onResult: (text) => setVoiceTranscript(text),
       onCommand: (cmd, text) => handleVoiceCommand(cmd, text),
-      onError: (err) => {
+      onError: (errCode) => {
         setIsListening(false);
-        if (err === 'not-allowed') {
-          setVoiceFeedback(t('mic_denied'));
+        if (errCode === 'no-speech') {
+          setVoiceFeedback(voiceLang === 'hi' ? 'कोई आवाज नहीं सुनी गई। पुनः प्रयास करें।' : 'No speech heard. Tap to speak again.');
+        } else if (errCode === 'not-allowed' || errCode === 'permission-denied') {
+          setVoiceFeedback(t('mic_denied') || 'Microphone access denied. Please allow mic.');
+        } else if (errCode === 'not-supported') {
+          setVoiceFeedback(t('speech_unsupported') || 'Voice recognition not supported in this browser.');
         } else {
-          setVoiceFeedback(t('speech_unsupported'));
+          setVoiceFeedback(voiceLang === 'hi' ? `माइक सूचना: ${errCode}` : `Voice status: ${errCode}`);
         }
       },
       onEnd: () => {
@@ -548,7 +564,7 @@ export default function LumaWorkflow() {
               <span className="sr-only">Luma Clinical Intelligence</span>
               <span aria-hidden="true">
                 Luma <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-emerald-400 to-pink-500">
-                  {lang === 'hi' ? 'क्लिनिकल इंटेलिजेंस' : 'Clinical Intelligence'}
+                  {t('clinical_intelligence_title') || 'Clinical Intelligence'}
                 </span>
               </span>
             </h1>
@@ -566,10 +582,7 @@ export default function LumaWorkflow() {
               <select
                 value={voiceLang}
                 onChange={(e) => {
-                  const val = e.target.value;
-                  if (val === 'en' || val === 'hi') {
-                    setVoiceLang(val);
-                  }
+                  setVoiceLang(e.target.value);
                 }}
                 className="bg-transparent text-white text-xs font-bold cursor-pointer focus:outline-none pr-1"
                 title="Select language for audio dictation and voice commands"
@@ -579,7 +592,6 @@ export default function LumaWorkflow() {
                   <option 
                     key={l.code} 
                     value={l.code} 
-                    disabled={!l.active}
                     className="bg-slate-900 text-white py-1"
                   >
                     {l.label}
@@ -588,10 +600,10 @@ export default function LumaWorkflow() {
               </select>
             </div>
 
-            {/* Dictate Step Instructions (TTS) */}
+            {/* Dictate Full Platform Overview & Tour (TTS) */}
             <button
-              onClick={isSpeaking ? stopSpeaking : dictateCurrentStep}
-              title={isSpeaking ? "Stop ongoing audio" : "Dictate what to do and how to do it in chosen language"}
+              onClick={handleToggleVoiceGuidance}
+              title={isSpeaking ? t('stop_audio') : t('voice_guidance')}
               className={`min-h-[44px] inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-2xl border text-xs font-bold transition-all shadow-md group shrink-0 ${
                 isSpeaking
                   ? 'bg-amber-500/20 text-amber-200 border-amber-400/50 shadow-[0_0_15px_rgba(245,158,11,0.4)] animate-pulse'
@@ -606,7 +618,7 @@ export default function LumaWorkflow() {
               ) : (
                 <>
                   <Volume2 size={16} className="text-teal-400 group-hover:scale-110 transition-transform shrink-0" />
-                  <span>{t('dictate_instructions')}</span>
+                  <span>{t('voice_guidance')}</span>
                 </>
               )}
             </button>
@@ -638,21 +650,129 @@ export default function LumaWorkflow() {
 
         {/* Live Voice Feedback / Transcript Strip */}
         {(isListening || voiceTranscript || voiceFeedback) && (
-          <div className="mt-4 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs">
-            <div className="flex items-center gap-2 text-slate-300">
-              <span className={`size-2 rounded-full ${isListening ? 'bg-rose-400 animate-ping' : 'bg-teal-400'}`} />
-              <span className="font-mono text-teal-300 font-bold">
-                {voiceFeedback || t('voice_command_hint')}
-              </span>
+          <div className="mt-4 pt-3 border-t border-white/10 space-y-2 text-xs">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-slate-300">
+                <span className={`size-2 rounded-full ${isListening ? 'bg-rose-400 animate-ping' : 'bg-teal-400'}`} />
+                <span className="font-mono text-teal-300 font-bold">
+                  {voiceFeedback || t('voice_command_hint')}
+                </span>
+              </div>
+              {voiceTranscript && (
+                <span className="text-[11px] font-mono text-slate-200 bg-teal-500/10 px-3 py-1 rounded-full border border-teal-400/30">
+                  "{voiceTranscript}"
+                </span>
+              )}
             </div>
-            {voiceTranscript && (
-              <span className="text-[11px] font-mono text-slate-400 bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
-                "{voiceTranscript}"
+
+            {/* Quick Test Voice Command Pills */}
+            <div className="flex flex-wrap items-center gap-1.5 pt-1">
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mr-1">
+                {voiceLang === 'hi' ? 'त्वरित वॉयस टेस्ट:' : 'Quick Voice Test:'}
               </span>
-            )}
+              {[
+                { label: voiceLang === 'hi' ? 'आगे (Next)' : 'Next', cmd: { type: 'NEXT_STEP', action: 'next' }, text: 'Next' },
+                { label: voiceLang === 'hi' ? 'पीछे (Back)' : 'Back', cmd: { type: 'PREV_STEP', action: 'back' }, text: 'Back' },
+                { label: voiceLang === 'hi' ? 'पुरुष (Male)' : 'Male', cmd: { type: 'SET_FIELD', field: 'sex', value: 'Male' }, text: 'Male' },
+                { label: voiceLang === 'hi' ? 'महिला (Female)' : 'Female', cmd: { type: 'SET_FIELD', field: 'sex', value: 'Female' }, text: 'Female' },
+                { label: voiceLang === 'hi' ? 'स्कैन (Scan)' : 'Scan', cmd: { type: 'SCAN_ACTION', action: 'capture' }, text: 'Scan' },
+                { label: voiceLang === 'hi' ? 'मार्गदर्शन (Help)' : 'Help', cmd: { type: 'DICTATE_HELP' }, text: 'Help' },
+              ].map((pill, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => handleVoiceCommand(pill.cmd, pill.text)}
+                  className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-teal-500/20 border border-white/10 hover:border-teal-400/40 text-[11px] font-mono text-slate-300 hover:text-white transition"
+                >
+                  {pill.label}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>
+
+      {/* 1.5 Dedicated Live Voice Guidance Platform Tour Card */}
+      {showVoiceTourCard && (
+        <div className="relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-teal-950/80 via-slate-900/90 to-emerald-950/80 border-2 border-teal-400/40 backdrop-blur-2xl shadow-[0_0_40px_rgba(45,212,191,0.25)] space-y-4 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="size-10 rounded-2xl bg-teal-400/20 border border-teal-400/30 flex items-center justify-center text-teal-300 shadow-sm shrink-0">
+                <Volume2 size={20} className={isSpeaking ? "animate-pulse" : ""} />
+              </div>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm font-extrabold text-white tracking-wide">
+                    {t('platform_tour_title')}
+                  </span>
+                  {isSpeaking && (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-teal-500/20 text-teal-300 border border-teal-500/30">
+                      <span className="size-2 rounded-full bg-teal-400 animate-ping" />
+                      {t('voice_guidance_active')}
+                    </span>
+                  )}
+                </div>
+                <div className="text-[11px] font-mono text-slate-400">
+                  Bhashini TTS · {LANGUAGES.find(l => l.code === (voiceLang || lang))?.native || 'Indian Language'} ({voiceLang || lang})
+                </div>
+              </div>
+            </div>
+
+            {/* Action Controls for Tour Card */}
+            <div className="flex items-center gap-2 self-end sm:self-center">
+              {isSpeaking ? (
+                <button
+                  onClick={stopSpeaking}
+                  className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-200 text-xs font-bold flex items-center gap-1.5 transition"
+                >
+                  <VolumeX size={14} />
+                  <span>{t('stop_guidance')}</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => speakPlatformOverview(voiceLang || lang)}
+                  className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 border border-teal-400/40 text-teal-200 text-xs font-bold flex items-center gap-1.5 transition"
+                >
+                  <RefreshCw size={13} />
+                  <span>{t('replay_tour')}</span>
+                </button>
+              )}
+
+              <button
+                onClick={() => {
+                  stopSpeaking();
+                  setShowVoiceTourCard(false);
+                }}
+                className="size-8 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition"
+                title={t('dismiss')}
+              >
+                <X size={15} />
+              </button>
+            </div>
+          </div>
+
+          {/* Spoken Paragraph Transcript in the Selected Language */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-black/40 border border-white/10 space-y-2">
+            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
+              {t('platform_voice_overview')}
+            </p>
+          </div>
+
+          {/* Quick Step Guidance Shortcuts */}
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs pt-1">
+            <span className="text-[11px] text-slate-400 font-mono">
+              {t('voice_command_hint')}
+            </span>
+            <button
+              onClick={dictateCurrentStep}
+              className="text-[11px] font-bold text-teal-300 hover:text-teal-200 underline underline-offset-4 flex items-center gap-1"
+            >
+              <Volume2 size={12} />
+              <span>{t('listen_step_guidance')} ({t('step_prefix')} {step})</span>
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* 2. Responsive 4-Step Stepper Ribbon */}
       <div className="w-full">
@@ -891,7 +1011,7 @@ export default function LumaWorkflow() {
               >
                 {VILLAGES.map((v) => (
                   <option key={v.name} value={v.name} className="bg-slate-900 py-1">
-                    {v.name} ({v.district} {lang === 'hi' ? 'जिला' : 'District'})
+                    {v.name} ({v.district} {t('district_suffix') || 'District'})
                   </option>
                 ))}
               </select>
@@ -1002,7 +1122,7 @@ export default function LumaWorkflow() {
               className="group min-h-[48px] p-4 sm:p-5 rounded-2xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/25 hover:border-amber-400/40 text-amber-200 font-extrabold text-sm sm:text-base flex items-center justify-center gap-2.5 transition-all hover:scale-[1.02]"
             >
               <AlertTriangle size={20} className="text-amber-400 group-hover:scale-110 transition-transform" />
-              <span>{lang === 'hi' ? 'अनिश्चित / अज्ञात' : 'Unsure / Unknown'}</span>
+              <span>{t('unsure')}</span>
             </button>
           </div>
 
@@ -1019,7 +1139,7 @@ export default function LumaWorkflow() {
             </button>
 
             <span className="text-xs font-mono text-slate-500">
-              {lang === 'hi' ? 'पूर्ण उत्तर' : 'Completed answers'}: {historyAnswers.filter(Boolean).length}/7
+              {t('completed_answers')}: {historyAnswers.filter(Boolean).length}/7
             </span>
           </div>
         </div>
@@ -1131,7 +1251,7 @@ export default function LumaWorkflow() {
                 </span>
               </div>
               <span className="text-xs font-mono text-teal-300">
-                {scanLocked ? `✓ Tone Calibrated (${ILLUMINANTS[illuminant]?.label || illuminant})` : (lang === 'hi' ? 'कैलिब्रेट हो रहा है...' : 'Calibrating...')}
+                {scanLocked ? `✓ ${t('tone_calibrated')} (${ILLUMINANTS[illuminant]?.label || illuminant})` : t('calibrating')}
               </span>
             </div>
 
@@ -1140,10 +1260,10 @@ export default function LumaWorkflow() {
               <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-md flex flex-col items-center justify-center gap-4">
                 <RefreshCw size={36} className="text-teal-400 animate-spin" />
                 <div className="text-sm font-bold text-white tracking-wide">
-                  {lang === 'hi' ? 'न्यूरल फीचर मिलान जारी...' : 'Running Neural Feature Matching...'}
+                  {t('neural_matching')}
                 </div>
                 <div className="text-xs text-slate-400 font-mono">
-                  {lang === 'hi' ? 'मेलेनिन व एरिथेमा फिल्टर कैलिब्रेशन' : 'Calibrating Melanin & Erythema Filters'}
+                  {t('calibrating_melanin_erythema')}
                 </div>
               </div>
             )}
@@ -1462,7 +1582,7 @@ export default function LumaWorkflow() {
               <div className="min-w-0">
                 <h4 className="text-base font-bold text-white tracking-tight break-words">{nearestPHC.name}</h4>
                 <p className="text-xs text-slate-400 mt-0.5 break-words">
-                  {nearestPHC.district} {lang === 'hi' ? 'जिला' : 'District'} · <span className="font-mono">Code: {nearestPHC.code}</span>
+                  {nearestPHC.district} {t('district_suffix') || 'District'} · <span className="font-mono">Code: {nearestPHC.code}</span>
                 </p>
               </div>
 

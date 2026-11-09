@@ -6,6 +6,7 @@ import {
   speak as speakText, 
   speakKey as speakTextKey,
   speakStepGuidance as dictateStep,
+  speakPlatformOverview as dictatePlatformOverview,
   stopSpeaking as cancelSpeech,
   subscribeSpeechState,
   startVoiceRecognition as listenVoice,
@@ -42,13 +43,10 @@ export const LanguageProvider = ({ children }) => {
 
   const setLang = (newLang) => {
     setLangState(newLang);
+    setVoiceLangState(newLang);
     try {
       localStorage.setItem('luma_language', newLang);
-      // Synchronize voice language if it was tracking the main language
-      if (newLang === 'hi' || newLang === 'en') {
-        setVoiceLangState(newLang);
-        localStorage.setItem('luma_voice_language', newLang);
-      }
+      localStorage.setItem('luma_voice_language', newLang);
     } catch {}
   };
 
@@ -63,6 +61,7 @@ export const LanguageProvider = ({ children }) => {
   const speak = (text, targetLang = voiceLang) => speakText(text, targetLang);
   const speakKey = (key, targetLang = voiceLang) => speakTextKey(key, targetLang);
   const speakStepGuidance = (step, extra = {}) => dictateStep(step, voiceLang, extra);
+  const speakPlatformOverview = (targetLang = lang) => dictatePlatformOverview(targetLang);
   const stopSpeaking = () => cancelSpeech();
 
   return (
@@ -75,6 +74,7 @@ export const LanguageProvider = ({ children }) => {
       speak, 
       speakKey, 
       speakStepGuidance,
+      speakPlatformOverview,
       stopSpeaking,
       isSpeaking,
       languages: LANGUAGES,
@@ -99,6 +99,7 @@ export const useLanguage = () => {
       speak: (text) => speakText(text, 'en'),
       speakKey: (key) => speakTextKey(key, 'en'),
       speakStepGuidance: (step, extra) => dictateStep(step, 'en', extra),
+      speakPlatformOverview: () => dictatePlatformOverview('en'),
       stopSpeaking: () => cancelSpeech(),
       isSpeaking: false,
       languages: LANGUAGES,

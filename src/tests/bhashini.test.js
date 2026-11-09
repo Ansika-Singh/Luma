@@ -46,7 +46,7 @@ describe('Bhashini Multilingual Localization & Speech Module', () => {
     expect(t('cdss_disclaimer_content', 'hi')).toContain('क्लिनिकल डिसीजन सपोर्ट सिस्टम');
   });
 
-  it('defines VOICE_LANGUAGES with English and Hindi active, and 5 Indic languages coming soon', () => {
+  it('defines VOICE_LANGUAGES with all 7 Indian languages active', () => {
     expect(VOICE_LANGUAGES).toBeDefined();
     expect(VOICE_LANGUAGES.length).toBe(7);
 
@@ -57,8 +57,8 @@ describe('Bhashini Multilingual Localization & Speech Module', () => {
 
     expect(en.active).toBe(true);
     expect(hi.active).toBe(true);
-    expect(mr.active).toBe(false);
-    expect(ta.active).toBe(false);
+    expect(mr.active).toBe(true);
+    expect(ta.active).toBe(true);
   });
 
   it('parses voice commands accurately in Hindi', () => {
