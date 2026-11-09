@@ -397,13 +397,27 @@ export default function LumaWorkflow() {
   const [spokenGuideText, setSpokenGuideText] = useState('');
 
   // Safe language label lookup — can never throw in render
-  const currentVoiceLangCode = voiceLang || lang || 'en';
+  const currentVoiceLangCode = lang || voiceLang || 'en';
   let currentVoiceLangNative = 'English';
   try {
     const allLangs = languages || LANGUAGES || [];
     const found = allLangs.find(l => l.code === currentVoiceLangCode);
     if (found && found.native) currentVoiceLangNative = found.native;
   } catch { /* safely default to English */ }
+
+  // Synchronize spoken transcript whenever language or step changes
+  useEffect(() => {
+    const activeLang = lang || voiceLang || 'en';
+    if (step === 1) {
+      setSpokenGuideText(t('voice_step_1', activeLang) || t('platform_voice_overview', activeLang));
+    } else if (step === 2) {
+      setSpokenGuideText(t('voice_step_2', activeLang));
+    } else if (step === 3) {
+      setSpokenGuideText(t('voice_step_3', activeLang));
+    } else if (step === 4) {
+      setSpokenGuideText(t('voice_step_4', activeLang));
+    }
+  }, [lang, voiceLang, step]);
 
   // Voice Guidance: Dictate current step out loud
   const dictateCurrentStep = () => {
@@ -613,13 +627,16 @@ export default function LumaWorkflow() {
             <div className="flex items-center gap-1.5 bg-black/40 border border-white/15 rounded-2xl px-3 py-2 text-xs text-slate-300 min-h-[44px]">
               <Globe size={14} className="text-teal-400 shrink-0" />
               <select
-                value={voiceLang}
+                value={lang || voiceLang || 'en'}
                 onChange={(e) => {
-                  setVoiceLang(e.target.value);
+                  const newLang = e.target.value;
+                  setLang(newLang);
+                  setVoiceLang(newLang);
+                  setSpokenGuideText(t('platform_voice_overview', newLang));
                 }}
                 className="bg-transparent text-white text-xs font-bold cursor-pointer focus:outline-none pr-1"
-                title="Select language for audio dictation and voice commands"
-                aria-label="Voice Language"
+                title="Select language for entire platform and voice guidance"
+                aria-label="Language Selector"
               >
                 {(voiceLanguages || []).map((l) => (
                   <option 
@@ -736,12 +753,12 @@ export default function LumaWorkflow() {
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-sm font-extrabold text-white tracking-wide">
-                    {t('platform_tour_title')}
+                    {t('platform_tour_title', currentVoiceLangCode)}
                   </span>
                   {isSpeaking && (
                     <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-teal-500/20 text-teal-300 border border-teal-500/30">
                       <span className="size-2 rounded-full bg-teal-400 animate-ping" />
-                      {t('voice_guidance_active')}
+                      {t('voice_guidance_active', currentVoiceLangCode)}
                     </span>
                   )}
                 </div>
@@ -759,7 +776,7 @@ export default function LumaWorkflow() {
                   className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-200 text-xs font-bold flex items-center gap-1.5 transition"
                 >
                   <VolumeX size={14} />
-                  <span>{t('stop_guidance')}</span>
+                  <span>{t('stop_guidance', currentVoiceLangCode)}</span>
                 </button>
               ) : (
                 <button
@@ -767,7 +784,7 @@ export default function LumaWorkflow() {
                   className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 border border-teal-400/40 text-teal-200 text-xs font-bold flex items-center gap-1.5 transition"
                 >
                   <RefreshCw size={13} />
-                  <span>{t('replay_tour')}</span>
+                  <span>{t('replay_tour', currentVoiceLangCode)}</span>
                 </button>
               )}
 
@@ -777,7 +794,7 @@ export default function LumaWorkflow() {
                   setShowVoiceTourCard(false);
                 }}
                 className="size-8 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition"
-                title={t('dismiss')}
+                title={t('dismiss', currentVoiceLangCode)}
               >
                 <X size={15} />
               </button>
@@ -787,21 +804,21 @@ export default function LumaWorkflow() {
           {/* Spoken Paragraph Transcript in the Selected Language */}
           <div className="p-4 sm:p-5 rounded-2xl bg-black/40 border border-white/10 space-y-2">
             <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
-              {spokenGuideText || t('platform_voice_overview')}
+              {spokenGuideText || t('platform_voice_overview', currentVoiceLangCode)}
             </p>
           </div>
 
           {/* Quick Step Guidance Shortcuts */}
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs pt-1">
             <span className="text-[11px] text-slate-400 font-mono">
-              {t('voice_command_hint')}
+              {t('voice_command_hint', currentVoiceLangCode)}
             </span>
             <button
               onClick={dictateCurrentStep}
               className="text-[11px] font-bold text-teal-300 hover:text-teal-200 underline underline-offset-4 flex items-center gap-1"
             >
               <Volume2 size={12} />
-              <span>{t('listen_step_guidance')} ({t('step_prefix')} {step})</span>
+              <span>{t('listen_step_guidance', currentVoiceLangCode)} ({t('step_prefix', currentVoiceLangCode)} {step})</span>
             </button>
           </div>
         </div>

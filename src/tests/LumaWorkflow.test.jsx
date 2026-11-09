@@ -86,4 +86,19 @@ describe('Luma Guided Clinical Workflow', () => {
     expect(screen.getByText(/Bhashini TTS/i)).toBeInTheDocument();
     expect(screen.getByText(/Welcome to Luma Clinical Intelligence/i)).toBeInTheDocument();
   });
+
+  it('switches entire triage page and voice tour to Hindi when Hindi is selected', () => {
+    renderComponent();
+
+    // Find the language selector
+    const langSelect = screen.getByLabelText(/Language Selector/i);
+    expect(langSelect).toBeInTheDocument();
+
+    // Change to Hindi
+    fireEvent.change(langSelect, { target: { value: 'hi' } });
+
+    // Header, badge and details should switch to Hindi
+    expect(screen.getAllByText(/रोगी विवरण/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/पूरा नाम/i)).toBeInTheDocument();
+  });
 });
