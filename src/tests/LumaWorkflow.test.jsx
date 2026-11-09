@@ -72,4 +72,18 @@ describe('Luma Guided Clinical Workflow', () => {
     expect(screen.getByText(/Eczema/i)).toBeInTheDocument();
     expect(screen.getByText(/Tinea Ringworm/i)).toBeInTheDocument();
   });
+
+  it('renders Voice Tour card without crashing when clicking Dictate Instructions', () => {
+    renderComponent();
+
+    // Find and click the Dictate Instructions button in header
+    const dictateButtons = screen.getAllByRole('button', { name: /Dictate Instructions/i });
+    expect(dictateButtons.length).toBeGreaterThan(0);
+
+    fireEvent.click(dictateButtons[0]);
+
+    // Tour card should be rendered without any ReferenceError or unmounting
+    expect(screen.getByText(/Bhashini TTS/i)).toBeInTheDocument();
+    expect(screen.getByText(/Welcome to Luma Clinical Intelligence/i)).toBeInTheDocument();
+  });
 });

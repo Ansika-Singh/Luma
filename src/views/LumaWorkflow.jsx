@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Volume2, VolumeX, Mic, MicOff, Globe, Undo2, ArrowRight, ArrowLeft, Camera, RefreshCw, 
-  MapPin, Send, CheckCircle2, AlertTriangle, ShieldAlert, 
+  MapPin, Send, CheckCircle2, AlertTriangle, 
   FileText, User, Sparkles, Check, X,
   Activity, Calendar, Scale, Shield, PhoneCall, Copy, HeartPulse, Upload
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { LANGUAGES } from '../lib/bhashini';
 import { 
   CONDITION_META, FALLBACK_META, FITZ_COLORS, ILLUMINANTS, 
   estimateIlluminantFromCanvas, detectFitzpatrickFromCanvas, 
@@ -31,7 +32,7 @@ export default function LumaWorkflow() {
   const { 
     lang, setLang, 
     voiceLang, setVoiceLang, 
-    t, speak, speakKey, 
+    t, speak, 
     speakStepGuidance, speakPlatformOverview, stopSpeaking, isSpeaking, 
     languages, voiceLanguages, startVoiceRecognition 
   } = useLanguage();
@@ -728,7 +729,7 @@ export default function LumaWorkflow() {
                   )}
                 </div>
                 <div className="text-[11px] font-mono text-slate-400">
-                  Bhashini TTS · {LANGUAGES.find(l => l.code === (voiceLang || lang))?.native || 'Indian Language'} ({voiceLang || lang})
+                  Bhashini TTS · {(languages || LANGUAGES || []).find(l => l.code === (voiceLang || lang))?.native || 'Indian Language'} ({voiceLang || lang})
                 </div>
               </div>
             </div>
