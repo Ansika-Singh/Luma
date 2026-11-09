@@ -396,24 +396,33 @@ export default function LumaWorkflow() {
 
   const [spokenGuideText, setSpokenGuideText] = useState('');
 
+  // Safe language label lookup — can never throw in render
+  const currentVoiceLangCode = voiceLang || lang || 'en';
+  let currentVoiceLangNative = 'English';
+  try {
+    const allLangs = languages || LANGUAGES || [];
+    const found = allLangs.find(l => l.code === currentVoiceLangCode);
+    if (found && found.native) currentVoiceLangNative = found.native;
+  } catch { /* safely default to English */ }
+
   // Voice Guidance: Dictate current step out loud
   const dictateCurrentStep = () => {
     setShowVoiceTourCard(true);
     let stepText = '';
     if (step === 1) {
-      stepText = t('voice_step_1');
+      stepText = t('voice_step_1', currentVoiceLangCode);
     } else if (step === 2) {
-      stepText = t('voice_step_2');
+      stepText = t('voice_step_2', currentVoiceLangCode);
     } else if (step === 3) {
-      stepText = t('voice_step_3');
+      stepText = t('voice_step_3', currentVoiceLangCode);
     } else if (step === 4) {
-      stepText = t('voice_step_4');
+      stepText = t('voice_step_4', currentVoiceLangCode);
     }
-    setSpokenGuideText(stepText || t('platform_voice_overview'));
+    setSpokenGuideText(stepText || t('platform_voice_overview', currentVoiceLangCode));
     speakStepGuidance(step, {
       questionKey: QUESTION_KEYS[historyIdx],
       questionIndex: historyIdx,
-      condition: diagnosis ? (t(diagnosis.condition) || diagnosis.condition) : ''
+      condition: diagnosis ? (t(diagnosis.condition, currentVoiceLangCode) || diagnosis.condition) : ''
     });
   };
 
@@ -424,26 +433,17 @@ export default function LumaWorkflow() {
         stopSpeaking();
       } else {
         setShowVoiceTourCard(true);
-        const overviewText = t('platform_voice_overview');
-        setSpokenGuideText(overviewText || 'Welcome to Luma Clinical Intelligence. An offline AI dermatology platform for rural health workers.');
-        speakPlatformOverview(voiceLang || lang);
+        const overviewText = t('platform_voice_overview', currentVoiceLangCode);
+        setSpokenGuideText(overviewText || 'Welcome to Luma Clinical Intelligence.');
+        speakPlatformOverview(currentVoiceLangCode);
       }
     } catch (err) {
       console.warn('Voice guidance error:', err);
       // Even if TTS fails, still show the text card so user can read
       setShowVoiceTourCard(true);
-      setSpokenGuideText(t('platform_voice_overview') || 'Welcome to Luma Clinical Intelligence. An offline AI dermatology platform for rural health workers.');
+      setSpokenGuideText(t('platform_voice_overview', currentVoiceLangCode) || 'Welcome to Luma Clinical Intelligence.');
     }
   };
-
-  // Safe language label lookup — can never throw in render
-  const currentVoiceLangCode = voiceLang || lang || 'en';
-  let currentVoiceLangNative = 'English';
-  try {
-    const allLangs = languages || LANGUAGES || [];
-    const found = allLangs.find(l => l.code === currentVoiceLangCode);
-    if (found && found.native) currentVoiceLangNative = found.native;
-  } catch { /* safely default to English */ }
 
   // Handle Voice Command parsing
   const handleVoiceCommand = (cmd, transcript) => {
@@ -763,7 +763,7 @@ export default function LumaWorkflow() {
                 </button>
               ) : (
                 <button
-                  onClick={() => speakPlatformOverview(voiceLang || lang)}
+                  onClick={() => speakPlatformOverview(currentVoiceLangCode)}
                   className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 border border-teal-400/40 text-teal-200 text-xs font-bold flex items-center gap-1.5 transition"
                 >
                   <RefreshCw size={13} />

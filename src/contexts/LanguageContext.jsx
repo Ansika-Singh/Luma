@@ -57,11 +57,11 @@ export const LanguageProvider = ({ children }) => {
     } catch {}
   };
 
-  const t = (key) => translate(key, lang);
+  const t = (key, customLang = null) => translate(key, customLang || lang);
   const speak = (text, targetLang = voiceLang) => speakText(text, targetLang);
   const speakKey = (key, targetLang = voiceLang) => speakTextKey(key, targetLang);
   const speakStepGuidance = (step, extra = {}) => dictateStep(step, voiceLang, extra);
-  const speakPlatformOverview = (targetLang = lang) => dictatePlatformOverview(targetLang);
+  const speakPlatformOverview = (targetLang = voiceLang) => dictatePlatformOverview(targetLang || lang);
   const stopSpeaking = () => cancelSpeech();
 
   return (
@@ -95,11 +95,11 @@ export const useLanguage = () => {
       setLang: () => {},
       voiceLang: 'en',
       setVoiceLang: () => {},
-      t: (key) => translate(key, 'en'),
-      speak: (text) => speakText(text, 'en'),
-      speakKey: (key) => speakTextKey(key, 'en'),
+      t: (key, customLang = null) => translate(key, customLang || 'en'),
+      speak: (text, targetLang = 'en') => speakText(text, targetLang),
+      speakKey: (key, targetLang = 'en') => speakTextKey(key, targetLang),
       speakStepGuidance: (step, extra) => dictateStep(step, 'en', extra),
-      speakPlatformOverview: () => dictatePlatformOverview('en'),
+      speakPlatformOverview: (targetLang = 'en') => dictatePlatformOverview(targetLang),
       stopSpeaking: () => cancelSpeech(),
       isSpeaking: false,
       languages: LANGUAGES,

@@ -1257,6 +1257,21 @@ if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
   }
 }
 
+/** Fall back cleanly to English string if no Indic voice is installed on OS */
+export function getEnglishFallback(text, lang = 'en') {
+  if (!text) return '';
+  for (const key of Object.keys(STRINGS)) {
+    const item = STRINGS[key];
+    if (item && item[lang] && item[lang] === text && item.en) {
+      return item.en;
+    }
+  }
+  if (/[\u0900-\u0D7F]/.test(text)) {
+    return STRINGS.platform_voice_overview.en;
+  }
+  return text;
+}
+
 /** Play subtle acoustic feedback when voice guidance triggers */
 export function playAudioChime() {
   if (typeof window === 'undefined') return;
@@ -1264,20 +1279,26 @@ export function playAudioChime() {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return;
     const ctx = new AudioContextClass();
+    const play = () => {
+      try {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.12); // A5
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.20);
+      } catch {}
+    };
     if (ctx.state === 'suspended') {
-      ctx.resume();
+      ctx.resume().then(play).catch(play);
+    } else {
+      play();
     }
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.12); // A5
-    gain.gain.setValueAtTime(0.08, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.14);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.15);
   } catch {}
 }
 
@@ -1288,157 +1309,127 @@ export function playAudioChime() {
 export function speak(text, lang = 'en', onComplete = null) {
   if (typeof window === 'undefined') return;
 
+  // 1. Play immediate audio chime so the user always gets physical audio response
+  try { playAudioChime(); } catch {}
+
   if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
     notifySpeechState(false);
     return;
   }
 
-  // Signal UI immediately that speech is starting
-  notifySpeechState(true);
-
-  // Play instant acoustic chime to prime browser audio context and give immediate audible response
-  try { playAudioChime(); } catch {}
+  const synth = window.speechSynthesis;
 
   try {
-    if (window.speechSynthesis.paused) {
-      window.speechSynthesis.resume();
+    // 2. Unpause synth in case Chrome/Edge put it in suspended state
+    if (synth.paused) {
+      try { synth.resume(); } catch {}
     }
-    window.speechSynthesis.cancel();
 
-    if (!text || !text.trim()) {
+    // 3. Clear any ongoing speech cleanly
+    try { synth.cancel(); } catch {}
+
+    const code = (lang || 'en').toLowerCase();
+    const rawText = (typeof text === 'string' && text.trim()) ? text.trim() : '';
+    if (!rawText) {
       notifySpeechState(false);
       return;
     }
 
-    // Core speech dispatch — extracted so we can retry if voices aren't loaded yet
-    const dispatchSpeech = () => {
-      try {
-        const voices = window.speechSynthesis.getVoices?.() || systemVoices || [];
-        const targetLangMeta = LANGUAGES.find((l) => l.code === lang) || { locale: 'en-IN' };
-        const code = (lang || 'en').toLowerCase();
+    notifySpeechState(true);
 
-        // 1. Search for voice matching exact language code or native name
-        const nativeVoice = voices.find((v) => {
-          const vLang = (v.lang || '').toLowerCase();
-          const vName = (v.name || '').toLowerCase();
-          return vLang.startsWith(code) || 
-                 vLang.includes(`-${code}`) || 
-                 vName.includes(targetLangMeta.native?.toLowerCase() || '') ||
-                 vName.includes(targetLangMeta.label?.toLowerCase() || '');
-        });
+    // 4. Query available voices
+    const voices = synth.getVoices?.() || systemVoices || [];
 
-        // 2. Search for Indian English voice
-        const indianEngVoice = voices.find((v) => 
-          (v.lang || '').toLowerCase().includes('en-in') || 
-          (v.name || '').toLowerCase().includes('india')
-        );
+    // Find native voice matching language code (e.g. Hindi, Tamil, etc.)
+    const nativeVoice = voices.find((v) => {
+      const vLang = (v.lang || '').toLowerCase();
+      const vName = (v.name || '').toLowerCase();
+      return vLang.startsWith(code) || 
+             vLang.includes(`-${code}`) ||
+             (vName.includes('hindi') && code === 'hi');
+    });
 
-        // 3. Search for ANY English voice
-        const anyEngVoice = voices.find((v) => (v.lang || '').toLowerCase().startsWith('en'));
+    const indianEngVoice = voices.find((v) => 
+      (v.lang || '').toLowerCase().includes('en-in') || 
+      (v.name || '').toLowerCase().includes('india')
+    );
 
-        // 4. Default voice on the system
-        const defaultVoice = voices.find((v) => v.default) || anyEngVoice || voices[0] || null;
+    const anyEngVoice = voices.find((v) => (v.lang || '').toLowerCase().startsWith('en'));
+    const defaultVoice = voices.find((v) => v.default) || anyEngVoice || voices[0] || null;
 
-        let chosenVoice = null;
-        let spokenLocale = navigator.language || 'en-US';
-        let spokenText = text;
+    let chosenVoice = null;
+    let spokenLocale = 'en-US';
+    let spokenText = rawText;
 
-        if (code === 'en') {
-          chosenVoice = indianEngVoice || anyEngVoice || defaultVoice;
-          spokenLocale = chosenVoice ? chosenVoice.lang : (navigator.language || 'en-US');
-          spokenText = text;
-        } else {
-          if (nativeVoice) {
-            chosenVoice = nativeVoice;
-            spokenLocale = nativeVoice.lang || targetLangMeta.locale || 'en-IN';
-            spokenText = text;
-          } else {
-            // Native Indic voice not installed on this OS/browser.
-            // Fall back cleanly to the working system voice (English) so audio is NEVER silent!
-            chosenVoice = indianEngVoice || anyEngVoice || defaultVoice;
-            spokenLocale = chosenVoice ? chosenVoice.lang : (navigator.language || 'en-US');
-            if (text === STRINGS.platform_voice_overview?.[lang]) {
-              spokenText = STRINGS.platform_voice_overview.en;
-            } else if (text === STRINGS.voice_step_1?.[lang]) {
-              spokenText = STRINGS.voice_step_1.en;
-            } else if (text === STRINGS.voice_step_2?.[lang]) {
-              spokenText = STRINGS.voice_step_2.en;
-            } else if (text === STRINGS.voice_step_3?.[lang]) {
-              spokenText = STRINGS.voice_step_3.en;
-            } else if (text === STRINGS.voice_step_4?.[lang]) {
-              spokenText = STRINGS.voice_step_4.en;
-            } else {
-              spokenText = text;
-            }
-          }
-        }
+    if (code === 'en') {
+      chosenVoice = indianEngVoice || anyEngVoice || defaultVoice;
+      spokenLocale = chosenVoice?.lang || 'en-US';
+      spokenText = rawText;
+    } else if (nativeVoice) {
+      // Native Indic voice is installed on user's system!
+      chosenVoice = nativeVoice;
+      spokenLocale = nativeVoice.lang || 'hi-IN';
+      spokenText = rawText;
+    } else {
+      // No native Indic voice installed on this Windows PC.
+      // Speak the English version with system English voice so sound is NEVER SILENT!
+      chosenVoice = indianEngVoice || anyEngVoice || defaultVoice;
+      spokenLocale = chosenVoice?.lang || 'en-US';
+      spokenText = getEnglishFallback(rawText, code);
+    }
 
-        const utterance = new SpeechSynthesisUtterance(spokenText);
-        activeUtterance = utterance;
-        window._lumaSpeechUtterance = utterance;
+    const utterance = new SpeechSynthesisUtterance(spokenText);
+    if (chosenVoice) utterance.voice = chosenVoice;
+    utterance.lang = spokenLocale;
+    utterance.rate = 0.95;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
 
-        utterance.lang = spokenLocale;
-        utterance.rate = code === 'en' ? 0.94 : 0.88;
-        utterance.pitch = 1.0;
-        if (chosenVoice) utterance.voice = chosenVoice;
+    // Anchor to window so V8 Garbage Collection never cancels it mid-speech!
+    activeUtterance = utterance;
+    window._lumaSpeechUtterance = utterance;
 
-        utterance.onstart = () => notifySpeechState(true);
-        utterance.onend = () => {
-          activeUtterance = null;
-          notifySpeechState(false);
-          if (onComplete) onComplete();
-        };
-        utterance.onerror = (e) => {
-          activeUtterance = null;
-          notifySpeechState(false);
-          console.warn('TTS playback issue:', e);
-          if (e.error !== 'canceled' && e.error !== 'interrupted') {
-            try {
-              const fallbackPrompt = STRINGS.platform_voice_overview?.en || 'Welcome to Luma Clinical Intelligence. Luma is an offline AI dermatology and rural triage platform for ASHA workers and rural communities.';
-              const fallbackUtt = new SpeechSynthesisUtterance(fallbackPrompt);
-              fallbackUtt.lang = navigator.language || 'en-US';
-              fallbackUtt.rate = 0.92;
-              fallbackUtt.onstart = () => notifySpeechState(true);
-              fallbackUtt.onend = () => {
-                activeUtterance = null;
-                notifySpeechState(false);
-                if (onComplete) onComplete();
-              };
-              window.speechSynthesis.speak(fallbackUtt);
-              activeUtterance = fallbackUtt;
-              window._lumaSpeechUtterance = fallbackUtt;
-            } catch {}
-          }
-        };
+    utterance.onstart = () => {
+      notifySpeechState(true);
+    };
 
-        window.speechSynthesis.speak(utterance);
-        if (window.speechSynthesis.paused) {
-          window.speechSynthesis.resume();
-        }
-      } catch (innerErr) {
-        console.warn('TTS dispatch error:', innerErr);
+    utterance.onend = () => {
+      activeUtterance = null;
+      window._lumaSpeechUtterance = null;
+      notifySpeechState(false);
+      if (onComplete) onComplete();
+    };
+
+    utterance.onerror = (e) => {
+      console.warn('TTS playback issue:', e);
+      if (e.error !== 'canceled' && e.error !== 'interrupted') {
+        try {
+          const fallbackUtt = new SpeechSynthesisUtterance(STRINGS.platform_voice_overview.en);
+          fallbackUtt.lang = 'en-US';
+          fallbackUtt.volume = 1.0;
+          fallbackUtt.rate = 0.95;
+          window._lumaSpeechUtterance = fallbackUtt;
+          synth.speak(fallbackUtt);
+        } catch {}
+      } else {
+        activeUtterance = null;
+        window._lumaSpeechUtterance = null;
         notifySpeechState(false);
       }
     };
 
-    // Chrome sometimes returns empty voices initially — retry after a delay
-    const currentVoices = window.speechSynthesis.getVoices?.() || [];
-    if (currentVoices.length === 0 && systemVoices.length === 0) {
-      // Wait for voices to load, then dispatch
-      const onVoicesReady = () => {
-        window.speechSynthesis.onvoiceschanged = null;
-        systemVoices = window.speechSynthesis.getVoices?.() || [];
-        dispatchSpeech();
-      };
-      window.speechSynthesis.onvoiceschanged = onVoicesReady;
-      // Fallback timeout — if voices never fire onvoiceschanged, speak anyway after 300ms
-      setTimeout(() => {
-        systemVoices = window.speechSynthesis.getVoices?.() || [];
-        dispatchSpeech();
-      }, 300);
-    } else {
-      dispatchSpeech();
-    }
+    // CRITICAL: 60ms delay after synth.cancel()!
+    // Without this timeout, Chrome's asynchronous cancel() destroys the newly queued utterance!
+    setTimeout(() => {
+      try {
+        if (synth.paused) synth.resume();
+        synth.speak(utterance);
+      } catch (speakErr) {
+        console.warn('synth.speak() error:', speakErr);
+        notifySpeechState(false);
+      }
+    }, 60);
+
   } catch (err) {
     console.warn('TTS playback error:', err);
     notifySpeechState(false);
